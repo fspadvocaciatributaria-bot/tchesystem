@@ -31,6 +31,7 @@ export function CrudForm({
   onCancel,
   submitting,
   error,
+  suggestions,
 }: {
   fields: FieldConfig[];
   initial: Record<string, unknown> | null;
@@ -38,6 +39,7 @@ export function CrudForm({
   onCancel: () => void;
   submitting: boolean;
   error?: string | null;
+  suggestions?: Record<string, string[]>;
 }) {
   const [values, setValues] = useState<Record<string, unknown>>(() => {
     const v: Record<string, unknown> = {};
@@ -94,15 +96,27 @@ export function CrudForm({
               {f.label}
             </label>
           ) : (
-            <input
-              className="input"
-              type={f.type === 'text' ? 'text' : 'number'}
-              step={f.type === 'currency' || f.type === 'percent' ? '0.01' : 'any'}
-              value={String(values[f.name] ?? '')}
-              onChange={(e) => set(f.name, e.target.value)}
-              placeholder={f.placeholder}
-              required={f.required}
-            />
+            <>
+              <input
+                className="input"
+                type={f.type === 'text' ? 'text' : 'number'}
+                step={f.type === 'currency' || f.type === 'percent' ? '0.01' : 'any'}
+                value={String(values[f.name] ?? '')}
+                onChange={(e) => set(f.name, e.target.value)}
+                placeholder={f.placeholder}
+                required={f.required}
+                list={
+                  f.type === 'text' && suggestions?.[f.name]?.length ? `sug-${f.name}` : undefined
+                }
+              />
+              {f.type === 'text' && suggestions?.[f.name]?.length ? (
+                <datalist id={`sug-${f.name}`}>
+                  {suggestions[f.name].map((s) => (
+                    <option key={s} value={s} />
+                  ))}
+                </datalist>
+              ) : null}
+            </>
           )}
           {f.help && <p className="text-[11px] text-muted mt-1">{f.help}</p>}
         </div>

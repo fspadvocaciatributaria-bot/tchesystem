@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Modal } from '@/components/Modal';
 import { CrudForm } from './CrudForm';
 import type { ColumnConfig, FieldConfig } from './types';
@@ -33,6 +33,27 @@ export function CrudManager<T extends { id: string }>({
   const { canWrite } = useOrg();
   const { data: rows, isLoading, error } = useResourceList<T>(table, { orderBy, select });
   const { create, update, remove } = useResourceMutations(table);
+
+  // Sugestões de autocomplete a partir dos valores já usados (reuso de cadastros),
+  // derivadas das linhas já carregadas — sem query extra. Mais recentes primeiro.
+  const suggestions = useMemo(() => {
+    const out: Record<string, string[]> = {};
+    for (const f of fields) {
+      if (f.type !== 'text') continue;
+      const seen = new Set<string>();
+      const list: string[] = [];
+      for (const row of [...(rows ?? [])].reverse()) {
+        const v = (row as Record<string, unknown>)[f.name];
+        if (typeof v === 'string' && v.trim() && !seen.has(v)) {
+          seen.add(v);
+          list.push(v);
+          if (list.length >= 20) break;
+        }
+      }
+      if (list.length) out[f.name] = list;
+    }
+    return out;
+  }, [rows, fields]);
 
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<T | null>(null);
@@ -148,6 +169,7 @@ export function CrudManager<T extends { id: string }>({
           onCancel={() => setOpen(false)}
           submitting={create.isPending || update.isPending}
           error={formError}
+          suggestions={suggestions}
         />
       </Modal>
     </div>
