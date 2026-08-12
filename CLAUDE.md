@@ -1,50 +1,63 @@
-# CLAUDE.md — FSP (Formação de Preços & Gestão)
+# CLAUDE.md — Constituição do TcheSystem
 
-Guia de projeto para o Claude Code. Leia antes de codificar.
+Guia lido no início de toda sessão, compartilhado pela equipe de agentes. TcheSystem =
+SaaS multi-tenant de **formação de preços, orçamento, estoque e financeiro** para prestadores
+de serviços (tatuadores, fotógrafos, mecânicos, etc.). No ar: https://tchesystem.netlify.app.
 
-## O que é
-SaaS multi-tenant de **formação de preços**, orçamento, custos, estoque e gestão financeira
-para prestadores de serviços (tatuadores, fotógrafos, mecânicos, etc.). Cadeia conceitual:
-`Formação de preço → Serviço → Orçamento → Cliente`. O produto responde "quanto preciso cobrar",
-não "aqui está uma calculadora".
+## 1. Princípios não negociáveis
+1. **Máximo valor, mínimo custo** — a rota mais barata que resolve; reaproveitar antes de adicionar dependência.
+2. **Aproveitar a estrutura atual** — extensões e adições, nunca recomeços; não recriar o que já funciona.
+3. **Confiabilidade financeira** — regras de preço/financeiras em funções puras testadas; dinheiro em `numeric(14,4)`, arredonda só na exibição (pt-BR/BRL).
+4. **Segurança por padrão** — multi-tenant com RLS em toda tabela; segredos fora do frontend.
+5. **Entrega incremental verificável** — cada ciclo termina com feature testada; o CI protege o deploy.
 
-## Stack
-Supabase (PostgreSQL + Auth + RLS + Storage) · React 18 + TypeScript + Vite · Tailwind ·
-TanStack Query · React Router · Recharts · Zod · Vitest + Testing Library · ESLint/Prettier.
+## 2. Stack e Convenções
+- **Frontend:** React 18 + TypeScript + Vite + Tailwind CSS; TanStack Query; React Router; Recharts. i18n pt-BR.
+- **Backend:** Supabase (PostgreSQL + Auth + **RLS** + Storage + RPC). Sem lógica de negócio no frontend — regras puras em `src/lib/` e `src/features/*/finance.ts`/etc.
+- **Banco:** migrações versionadas em `supabase/migrations/` (nunca alterar schema sem migração); `snake_case`; monetário `numeric(14,4)`; timestamps `timestamptz`.
+- **Código:** ESLint + Prettier; commits `type(scope): descrição` (Conventional Commits); validar sempre (`tsc --noEmit`, `npm test`, `npm run build`) e ler o diff antes de commitar.
+- **Segredos:** só a chave anon no frontend, em `.env.local` (git-ignorado); no CI, via GitHub Secrets. Nunca commitar chaves.
+- **Deploy:** GitHub Actions → Netlify, com **guarda de env** (aborta se o bundle sair sem `VITE_SUPABASE_URL`). `index.html` com `no-store`.
 
-## Regras de ouro
-1. **Toda regra financeira vive em `src/lib/pricing/`** como função pura, com teste unitário.
-   Nunca calcule preço/estoque "no componente". Fórmulas: `docs/PRICING_RULES.md`.
-2. **RLS em todas as tabelas.** Nenhuma autorização depende do frontend. Ver `docs/RLS.md`.
-   Todo dado carrega `organization_id`.
-3. **Dinheiro**: `numeric(14,4)` no banco; nunca `float` para dinheiro. Exibição pt-BR/BRL
-   via `Intl.NumberFormat`. Arredonda só na apresentação.
-4. **Estoque** só muda via RPC `register_inventory_movement()` (saldo + custo médio + auditoria).
-5. **Segredos** nunca no código nem no commit. Frontend só usa a chave anon (`VITE_*`).
-6. **Decisões financeiras** que mudam resultado: registre em `docs/DECISIONS.md` e, se alteram
-   o número final, confirme com o usuário. Não invente fórmula silenciosamente.
+## 3. Regras de ouro do código
+1. **Regra financeira vive em função pura** (`src/lib/pricing/`, `src/features/finance/finance.ts`) com teste. Nunca calcular preço/estoque/projeção no componente.
+2. **RLS em todas as tabelas.** Todo dado tem `organization_id`. Operações críticas (estoque, baixas) via **RPC `SECURITY DEFINER`** (search_path fixo, grants restritos).
+3. **Reaproveitar componentes:** `CrudManager`/`CrudForm`, `useResource`, `Modal`, `InfoTooltip`, `formatBRL`.
+4. **Tema-aware:** cores via tokens (`text-strong`, `bg-ink`, `text-muted`…) — nunca `text-white` fixo. Tema claro/escuro por usuário.
+5. **Rastreabilidade:** valores calculados exibem origem/fórmula em tooltip.
 
-## Estrutura
+## 4. Estrutura
 ```
-docs/                     # ARCHITECTURE, DATABASE, SCREENS, PRICING_RULES, RLS, DECISIONS
-supabase/migrations/      # DDL versionado (0001 schema, 0002 rls, 0003 functions)
-supabase/seed/            # dados demo (Studio Black, FotoLab)
-src/lib/pricing/          # ⭐ lógica financeira pura + testes
-src/lib/money/            # formatação BRL
-src/lib/supabase/         # cliente + tipos
-src/features/<dominio>/   # módulos por domínio
-src/layouts/              # MobileLayout, DesktopLayout
+docs/            # ROADMAP_EVOLUCAO, progresso, decisoes (ADRs), PRICING_RULES, RLS, ARCHITECTURE, diretrizes-ui/
+supabase/migrations/  # DDL versionado (schema, RLS, RPCs)
+src/lib/pricing/ · src/features/finance/finance.ts   # ⭐ regras puras testadas
+src/lib/money/ · src/lib/supabase/ · src/lib/nfe/
+src/features/<dominio>/   # cadastros, pricing, quotes, inventory, finance, import, reports…
+src/layouts/     # MobileLayout, DesktopLayout
+.github/workflows/deploy.yml  # CI: testes + build + guarda de env + deploy
 ```
 
-## Convenções
-- **Commits**: Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `test:`).
-- **Componentes**: função + hooks; dados via TanStack Query em `hooks/`; acesso a dados em `services/`.
-- **Validação**: Zod no frontend + CHECK constraints no banco (defesa em profundidade).
-- **Cores** (Tailwind tokens): `gold` (lucro/metas/premium), `critical` (vermelho: alertas/erros),
-  `success` (verde: OK), `muted` (cinza). Base preto/preto-fosco. Não exagerar nas cores.
-- **Testes** antes de concluir cada fase: pricing, estoque, orçamentos, RLS/segurança.
+## 5. Memória e estado (ler antes de agir, atualizar ao concluir)
+- `docs/ROADMAP_EVOLUCAO.md` — backlog priorizado (fonte da verdade do que falta).
+- `docs/progresso.md` — estado atual: feito, em andamento, falhas e porquês.
+- `docs/decisoes.md` — ADRs (decisões estruturais com rationale e custo).
 
-## Fluxo de trabalho por fases
-Ver `docs/` e a lista de tarefas. FASE 0 (planejamento) → 1 (fundação) → 2 (cadastros) →
-3 (formação de preço) → 4 (orçamentos) → 5 (financeiro/dashboard) → 6 (testes/segurança/deploy).
-Rode a suíte de testes e corrija falhas antes de dar cada fase por concluída.
+## 6. Equipe de agentes (`.claude/agents/`)
+| Agente | Papel | Modelo |
+|--------|-------|--------|
+| **dev-fullstack** | Implementação: features, hooks, migrações, RLS/RPC, parsers, testes | Sonnet |
+| **ui-ux-master** | Interface, tema claro/escuro, estados, a11y, responsividade | Sonnet |
+| **software-architect** | Arquitetura, ADRs, revisão (checklist 7 dimensões), roadmap, custo — read-only em produção | Opus |
+
+Fronteiras garantidas por restrição de ferramentas (o architect não edita código de produção).
+Ciclo: **planejar (architect) → executar (dev/ux) → revisar (architect) → registrar (todos)**.
+Protocolo completo em `.claude/agents/protocolo-equipe.md`. Envolver o usuário só em: trade-off
+de arquitetura de longo prazo, custo relevante (serviço pago), conflito entre agentes, ou
+ambiguidade de requisito.
+
+## 7. Fluxo padrão (todos os agentes)
+1. Ler `docs/progresso.md` e `docs/ROADMAP_EVOLUCAO.md`.
+2. Escopar o mínimo de arquivos; plan mode em mudanças transversais.
+3. Implementar em passos pequenos — 1 commit por feature, com critérios de aceitação verificados.
+4. Rodar validações e ler o diff; o push dispara o CI (a guarda de env aborta build sem chaves).
+5. Atualizar `docs/progresso.md` e marcar o item do roadmap.
