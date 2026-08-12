@@ -19,12 +19,15 @@ import { GoalsPage } from '@/features/goals/GoalsPage';
 import { QuotesListPage } from '@/features/quotes/QuotesListPage';
 import { QuoteEditorPage } from '@/features/quotes/QuoteEditorPage';
 import { QuoteViewPage } from '@/features/quotes/QuoteViewPage';
-import { CashflowPage } from '@/features/cashflow/CashflowPage';
 import { HelpCenterPage } from '@/features/help/HelpCenterPage';
 import { ImportXmlPage } from '@/features/import/ImportXmlPage';
 import { AccountPage } from '@/features/account/AccountPage';
 import { SimulatorPage } from '@/features/simulator/SimulatorPage';
 import { ReportsPage } from '@/features/reports/ReportsPage';
+import { FinanceDashboardPage } from '@/features/finance/FinanceDashboardPage';
+import { TransactionsPage } from '@/features/finance/TransactionsPage';
+import { AccountsPage } from '@/features/finance/AccountsPage';
+import { ClassificationsPage } from '@/features/finance/ClassificationsPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 
 function Loading() {
@@ -95,7 +98,12 @@ export const router = createBrowserRouter([
               { path: '/importacao-xml', element: <ImportXmlPage /> },
               { path: '/costs/fixed', element: <FixedCostsPage /> },
               { path: '/costs/variable', element: <VariableCostsPage /> },
-              { path: '/cashflow', element: <CashflowPage /> },
+              { path: '/financeiro', element: <FinanceDashboardPage /> },
+              { path: '/financeiro/lancamentos', element: <TransactionsPage /> },
+              { path: '/financeiro/contas', element: <AccountsPage /> },
+              { path: '/financeiro/classificacoes', element: <ClassificationsPage /> },
+              // Fluxo de caixa antigo substituído pelo módulo Financeiro.
+              { path: '/cashflow', element: <Navigate to="/financeiro" replace /> },
               { path: '/goals', element: <GoalsPage /> },
               { path: '/simulador', element: <SimulatorPage /> },
               { path: '/relatorios', element: <ReportsPage /> },

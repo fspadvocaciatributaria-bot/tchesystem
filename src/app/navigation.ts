@@ -21,7 +21,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/importacao-xml', label: 'Importar XML', icon: '📥' },
   { to: '/costs/fixed', label: 'Custos fixos', icon: '🏠' },
   { to: '/costs/variable', label: 'Custos variáveis', icon: '🔁' },
-  { to: '/cashflow', label: 'Fluxo de caixa', icon: '💵' },
+  { to: '/financeiro', label: 'Financeiro', icon: '💵' },
   { to: '/relatorios', label: 'Relatórios', icon: '📊' },
   { to: '/goals', label: 'Minha meta', icon: '🎯' },
   { to: '/simulador', label: 'Simulador', icon: '🧮' },
