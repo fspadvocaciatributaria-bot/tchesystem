@@ -7,6 +7,7 @@ import { useOrg } from '@/features/organization/OrgProvider';
 import { formatBRL, formatPercent } from '@/lib/money/format';
 import { computeGoal } from '@/lib/pricing';
 import { useOrgCostParams } from '@/features/pricing/useOrgCostParams';
+import { LearningTrail } from '@/features/onboarding/LearningTrail';
 
 function monthKey(d: Date) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -112,6 +113,8 @@ export function DashboardPage() {
     <div>
       <h1 className="text-xl font-semibold text-white mb-1">Dashboard</h1>
       <p className="text-sm text-muted mb-6">Visão do mês atual.</p>
+
+      <LearningTrail />
 
       <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
         <Kpi label="Faturamento (mês)" value={formatBRL(kpis.inc)} />

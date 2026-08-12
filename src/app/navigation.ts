@@ -23,6 +23,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/cashflow', label: 'Fluxo de caixa', icon: '💵' },
   { to: '/goals', label: 'Minha meta', icon: '🎯' },
   { to: '/settings', label: 'Configurações', icon: '⚙️' },
+  { to: '/ajuda', label: 'Ajuda', icon: '❓' },
 ];
 
 export const MOBILE_PRIMARY = NAV_ITEMS.filter((i) => i.primaryMobile);

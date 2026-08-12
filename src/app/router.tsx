@@ -20,6 +20,7 @@ import { QuotesListPage } from '@/features/quotes/QuotesListPage';
 import { QuoteEditorPage } from '@/features/quotes/QuoteEditorPage';
 import { QuoteViewPage } from '@/features/quotes/QuoteViewPage';
 import { CashflowPage } from '@/features/cashflow/CashflowPage';
+import { HelpCenterPage } from '@/features/help/HelpCenterPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 
 function Loading() {
@@ -92,6 +93,7 @@ export const router = createBrowserRouter([
               { path: '/cashflow', element: <CashflowPage /> },
               { path: '/goals', element: <GoalsPage /> },
               { path: '/settings', element: <SettingsPage /> },
+              { path: '/ajuda', element: <HelpCenterPage /> },
             ],
           },
         ],
