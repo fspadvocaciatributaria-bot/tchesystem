@@ -25,11 +25,29 @@ jobs:
       - name: Rodar testes
         run: npm test
 
+      # Gera .env.production a partir dos secrets — garante que o Vite embuta as
+      # variáveis no bundle (não depende de o Vite ler process.env).
+      - name: Configurar variáveis de ambiente
+        run: |
+          echo "VITE_SUPABASE_URL=${{ secrets.VITE_SUPABASE_URL }}" >> .env.production
+          echo "VITE_SUPABASE_ANON_KEY=${{ secrets.VITE_SUPABASE_ANON_KEY }}" >> .env.production
+
       - name: Build de produção
         run: npm run build
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      # GUARDA CRÍTICA: aborta o deploy se as chaves NÃO ficaram embutidas no bundle.
+      # Assim uma build sem env (que daria tela branca) nunca vai ao ar.
+      - name: Verificar env embutido no bundle
+        run: |
+          if grep -rq "supabase.co" dist/assets/*.js; then
+            echo "OK: URL do Supabase embutida no bundle."
+          else
+            echo "ERRO: bundle sem a URL do Supabase — abortando deploy para não publicar versão quebrada."
+            exit 1
+          fi
 
       - name: Deploy no Netlify
         run: npx --yes netlify-cli deploy --prod --dir=dist --site="$NETLIFY_SITE_ID"

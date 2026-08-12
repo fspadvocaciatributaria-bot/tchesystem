@@ -1,5 +1,4 @@
 plugins = []
-headers = []
 
 [functions]
 
@@ -24,6 +23,18 @@ command = "npm run build"
 [build.processing.js]
 
 [build.services]
+
+[[headers]]
+for = "/*"
+
+[headers.values]
+Cache-Control = "no-store, must-revalidate"
+
+[[headers]]
+for = "/assets/*"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
 
 [[redirects]]
 from = "/*"
