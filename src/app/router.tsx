@@ -16,6 +16,9 @@ import { InventoryPage } from '@/features/inventory/InventoryPage';
 import { PricingListPage } from '@/features/pricing/PricingListPage';
 import { FormationEditorPage } from '@/features/pricing/FormationEditorPage';
 import { GoalsPage } from '@/features/goals/GoalsPage';
+import { QuotesListPage } from '@/features/quotes/QuotesListPage';
+import { QuoteEditorPage } from '@/features/quotes/QuoteEditorPage';
+import { QuoteViewPage } from '@/features/quotes/QuoteViewPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { PagePlaceholder } from '@/components/PagePlaceholder';
 
@@ -74,7 +77,10 @@ export const router = createBrowserRouter([
               { path: '/services', element: <ServicesPage /> },
               { path: '/pricing', element: <PricingListPage /> },
               { path: '/pricing/:serviceId', element: <FormationEditorPage /> },
-              { path: '/quotes', element: ph('Orçamentos', 'FASE 4') },
+              { path: '/quotes', element: <QuotesListPage /> },
+              { path: '/quotes/new', element: <QuoteEditorPage /> },
+              { path: '/quotes/:id', element: <QuoteViewPage /> },
+              { path: '/quotes/:id/edit', element: <QuoteEditorPage /> },
               { path: '/customers', element: <CustomersPage /> },
               { path: '/professionals', element: <ProfessionalsPage /> },
               { path: '/labor', element: <LaborTypesPage /> },
