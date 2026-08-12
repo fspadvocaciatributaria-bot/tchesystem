@@ -1,21 +1,27 @@
 import { formatBRL, formatPercent } from '@/lib/money/format';
 import type { PriceResult, PriceTiers } from '@/lib/pricing';
+import { InfoTooltip } from '@/components/InfoTooltip';
 
 function TierCard({
   title,
   result,
   accent,
   highlight,
+  tip,
 }: {
   title: string;
   result: PriceResult;
   accent: 'muted' | 'gold' | 'success';
   highlight?: boolean;
+  tip?: string;
 }) {
   const color = accent === 'gold' ? 'text-gold' : accent === 'success' ? 'text-success' : 'text-strong';
   return (
     <div className={`card ${highlight ? 'border-gold/60' : ''}`}>
-      <div className="text-xs text-muted">{title}</div>
+      <div className="text-xs text-muted flex items-center">
+        {title}
+        {tip && <InfoTooltip text={tip} origin="Formação de preço" />}
+      </div>
       <div className={`text-2xl font-semibold mt-1 ${color}`}>{formatBRL(result.price)}</div>
       {!result.feasible && (
         <div className="text-[11px] text-critical mt-1">Inviável (encargos + margem ≥ 100%)</div>
@@ -58,13 +64,36 @@ export function PriceBreakdown({
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="card">
-          <div className="text-xs text-muted">Custo de execução</div>
+          <div className="text-xs text-muted flex items-center">
+            Custo de execução
+            <InfoTooltip
+              text="CUSTO = mão de obra + materiais + custos adicionais + rateio de custo fixo (custo fixo mensal ÷ horas produtivas × horas do serviço)."
+              origin="Custos e produtividade"
+              originRoute="/settings"
+            />
+          </div>
           <div className="text-2xl font-semibold mt-1 text-critical">{formatBRL(tiers.cost)}</div>
           <p className="text-[11px] text-muted mt-3">Piso: abaixo disto, prejuízo antes de encargos.</p>
         </div>
-        <TierCard title="Preço mínimo" result={tiers.min} accent="muted" />
-        <TierCard title="Preço recomendado" result={tiers.recommended} accent="gold" highlight />
-        <TierCard title="Preço premium" result={tiers.premium} accent="success" />
+        <TierCard
+          title="Preço mínimo"
+          result={tiers.min}
+          accent="muted"
+          tip="Preço = Custo ÷ (1 − comissão − impostos − margem mínima). Preserva a margem mínima configurada."
+        />
+        <TierCard
+          title="Preço recomendado"
+          result={tiers.recommended}
+          accent="gold"
+          highlight
+          tip="Preço = Custo ÷ (1 − comissão − impostos − margem recomendada). O preço ideal para a sua meta."
+        />
+        <TierCard
+          title="Preço premium"
+          result={tiers.premium}
+          accent="success"
+          tip="Preço = Custo ÷ (1 − comissão − impostos − margem premium). Margem maior, quando aplicável."
+        />
       </div>
     </div>
   );

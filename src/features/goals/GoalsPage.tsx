@@ -5,6 +5,7 @@ import { useOrg } from '@/features/organization/OrgProvider';
 import { formatBRL } from '@/lib/money/format';
 import { computeGoal } from '@/lib/pricing';
 import { useOrgCostParams } from '@/features/pricing/useOrgCostParams';
+import { InfoTooltip } from '@/components/InfoTooltip';
 
 /**
  * Minha Meta (§18): "quanto quero ganhar por mês?" → faturamento necessário,
@@ -95,7 +96,12 @@ export function GoalsPage() {
       )}
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        <Metric label="Faturamento necessário" value={formatBRL(result.requiredRevenue)} accent />
+        <Metric
+          label="Faturamento necessário"
+          value={formatBRL(result.requiredRevenue)}
+          accent
+          tip="Faturamento = (custos fixos mensais + lucro desejado) ÷ (1 − comissão − impostos)."
+        />
         <Metric label="Por hora produtiva" value={formatBRL(result.requiredPerHour)} />
         <Metric label="Por dia" value={formatBRL(result.requiredPerDay)} />
         <Metric
@@ -118,10 +124,13 @@ export function GoalsPage() {
   );
 }
 
-function Metric({ label, value, accent }: { label: string; value: string; accent?: boolean }) {
+function Metric({ label, value, accent, tip }: { label: string; value: string; accent?: boolean; tip?: string }) {
   return (
     <div className="card">
-      <div className="text-xs text-muted">{label}</div>
+      <div className="text-xs text-muted flex items-center">
+        {label}
+        {tip && <InfoTooltip text={tip} origin="Minha Meta" />}
+      </div>
       <div className={`text-2xl font-semibold mt-1 ${accent ? 'text-gold' : 'text-strong'}`}>{value}</div>
     </div>
   );
