@@ -23,6 +23,7 @@ import { CashflowPage } from '@/features/cashflow/CashflowPage';
 import { HelpCenterPage } from '@/features/help/HelpCenterPage';
 import { ImportXmlPage } from '@/features/import/ImportXmlPage';
 import { AccountPage } from '@/features/account/AccountPage';
+import { SimulatorPage } from '@/features/simulator/SimulatorPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 
 function Loading() {
@@ -95,6 +96,7 @@ export const router = createBrowserRouter([
               { path: '/costs/variable', element: <VariableCostsPage /> },
               { path: '/cashflow', element: <CashflowPage /> },
               { path: '/goals', element: <GoalsPage /> },
+              { path: '/simulador', element: <SimulatorPage /> },
               { path: '/settings', element: <SettingsPage /> },
               { path: '/ajuda', element: <HelpCenterPage /> },
               { path: '/conta', element: <AccountPage /> },

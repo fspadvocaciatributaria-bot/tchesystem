@@ -23,6 +23,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/costs/variable', label: 'Custos variáveis', icon: '🔁' },
   { to: '/cashflow', label: 'Fluxo de caixa', icon: '💵' },
   { to: '/goals', label: 'Minha meta', icon: '🎯' },
+  { to: '/simulador', label: 'Simulador', icon: '🧮' },
   { to: '/settings', label: 'Configurações', icon: '⚙️' },
   { to: '/conta', label: 'Minha conta', icon: '👤' },
   { to: '/ajuda', label: 'Ajuda', icon: '❓' },
