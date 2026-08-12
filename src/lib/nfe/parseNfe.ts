@@ -22,16 +22,25 @@ export interface NfeEmitente {
   endereco: string | null;
 }
 
+export interface NfeParty {
+  cnpj: string | null;
+  nome: string | null;
+}
+
 export interface NfeParsed {
   model: 'NFe' | 'NFC-e' | 'desconhecido';
   chave: string | null;
   numero: string | null;
   serie: string | null;
   dataEmissao: string | null; // ISO
+  dataSaida: string | null; // dhSaiEnt
   emitente: NfeEmitente;
+  destinatario: NfeParty;
   itens: NfeItem[];
   totalProdutos: number;
   totalNota: number;
+  frete: number;
+  desconto: number;
 }
 
 function tagText(root: Element | Document, tag: string): string | null {
@@ -104,6 +113,12 @@ export function parseNfe(xml: string): NfeParsed {
 
   const ide = infNFe.getElementsByTagName('ide')[0] ?? infNFe;
   const total = infNFe.getElementsByTagName('total')[0] ?? infNFe;
+  const dest = infNFe.getElementsByTagName('dest')[0] ?? null;
+
+  const destinatario: NfeParty = {
+    cnpj: dest ? tagText(dest, 'CNPJ') || tagText(dest, 'CPF') : null,
+    nome: dest ? tagText(dest, 'xNome') : null,
+  };
 
   return {
     model,
@@ -111,9 +126,13 @@ export function parseNfe(xml: string): NfeParsed {
     numero: tagText(ide, 'nNF'),
     serie: tagText(ide, 'serie'),
     dataEmissao: tagText(ide, 'dhEmi') || tagText(ide, 'dEmi'),
+    dataSaida: tagText(ide, 'dhSaiEnt'),
     emitente,
+    destinatario,
     itens,
     totalProdutos: num(tagText(total, 'vProd')),
     totalNota: num(tagText(total, 'vNF')) || itens.reduce((s, it) => s + it.valorTotal, 0),
+    frete: num(tagText(total, 'vFrete')),
+    desconto: num(tagText(total, 'vDesc')),
   };
 }

@@ -40,6 +40,7 @@ export function FinanceDashboardPage() {
         </div>
         <div className="flex gap-2 text-xs">
           <Link to="/financeiro/lancamentos" className="btn-primary">Lançamentos</Link>
+          <Link to="/financeiro/importar" className="btn-ghost">Importar XML</Link>
           <Link to="/financeiro/contas" className="btn-ghost">Contas</Link>
           <Link to="/financeiro/classificacoes" className="btn-ghost">Classificações</Link>
         </div>
