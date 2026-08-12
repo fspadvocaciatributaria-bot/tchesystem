@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply bg-ink text-muted-soft font-sans antialiased;
+}
+
+@layer components {
+  .card {
+    @apply bg-ink-card border border-ink-border rounded-xl2 p-4;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none;
+  }
+  .btn-primary {
+    @apply btn bg-gold text-ink hover:bg-gold-soft;
+  }
+  .btn-ghost {
+    @apply btn border border-ink-border text-muted-soft hover:bg-ink-soft;
+  }
+  .btn-danger {
+    @apply btn bg-critical text-white hover:bg-critical-soft;
+  }
+  .input {
+    @apply w-full rounded-lg bg-ink-soft border border-ink-border px-3 py-2 text-sm text-white placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/50;
+  }
+  .label {
+    @apply block text-xs font-medium text-muted mb-1;
+  }
+}
+
+/* Impressão de orçamentos (FASE 4) */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}
