@@ -12,6 +12,9 @@ orçamento, controla estoque e materiais, registra o fluxo de caixa e mostra se 
 Supabase (PostgreSQL, Auth, RLS, Storage) · React + TypeScript + Vite · Tailwind CSS ·
 TanStack Query · React Router · Recharts · Zod · Vitest.
 
+## Link público
+🌐 **App no ar:** https://fspadvocaciatributaria-bot.github.io/tchesystem/ (GitHub Pages, branch `gh-pages`)
+
 ## Status
 ✅ **MVP completo** (FASES 0–6). Backend Supabase provisionado e conectado; app React+TS+Vite
 compila, testes passam (lógica financeira + RLS), RLS verificado contra o banco real.

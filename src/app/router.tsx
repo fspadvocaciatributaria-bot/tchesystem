@@ -56,6 +56,9 @@ function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
 }
 
 
+// Base do deploy (ex.: '/tchesystem' no GitHub Pages, '/' no Vercel). Portátil.
+const BASENAME = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
+
 export const router = createBrowserRouter([
   { path: '/login', element: <PublicOnlyRoute><LoginPage /></PublicOnlyRoute> },
   { path: '/signup', element: <PublicOnlyRoute><SignupPage /></PublicOnlyRoute> },
@@ -96,4 +99,4 @@ export const router = createBrowserRouter([
     ],
   },
   { path: '*', element: <Navigate to="/" replace /> },
-]);
+], { basename: BASENAME });
