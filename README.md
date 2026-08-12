@@ -13,8 +13,9 @@ Supabase (PostgreSQL, Auth, RLS, Storage) · React + TypeScript + Vite · Tailwi
 TanStack Query · React Router · Recharts · Zod · Vitest.
 
 ## Status
-🚧 **FASE 0 concluída** (planejamento). Documentos em [`docs/`](docs/) e schema em
-[`supabase/migrations/`](supabase/migrations/). Implementação do MVP nas fases seguintes.
+✅ **FASE 0** (planejamento) e **FASE 1** (fundação) concluídas. App React+TS+Vite compila,
+26 testes passam, motor de precificação (`src/lib/pricing`) implementado, auth + layouts
+responsivos + roteamento prontos. Próxima: **FASE 2 — Cadastros**.
 
 ## Documentação
 | Documento | Conteúdo |
