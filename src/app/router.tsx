@@ -21,6 +21,7 @@ import { QuoteEditorPage } from '@/features/quotes/QuoteEditorPage';
 import { QuoteViewPage } from '@/features/quotes/QuoteViewPage';
 import { CashflowPage } from '@/features/cashflow/CashflowPage';
 import { HelpCenterPage } from '@/features/help/HelpCenterPage';
+import { ImportXmlPage } from '@/features/import/ImportXmlPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 
 function Loading() {
@@ -88,6 +89,7 @@ export const router = createBrowserRouter([
               { path: '/products', element: <ProductsPage /> },
               { path: '/suppliers', element: <SuppliersPage /> },
               { path: '/inventory', element: <InventoryPage /> },
+              { path: '/importacao-xml', element: <ImportXmlPage /> },
               { path: '/costs/fixed', element: <FixedCostsPage /> },
               { path: '/costs/variable', element: <VariableCostsPage /> },
               { path: '/cashflow', element: <CashflowPage /> },

@@ -18,6 +18,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/products', label: 'Produtos', icon: '📦' },
   { to: '/suppliers', label: 'Fornecedores', icon: '🚚' },
   { to: '/inventory', label: 'Estoque', icon: '🏷️', primaryMobile: true },
+  { to: '/importacao-xml', label: 'Importar XML', icon: '📥' },
   { to: '/costs/fixed', label: 'Custos fixos', icon: '🏠' },
   { to: '/costs/variable', label: 'Custos variáveis', icon: '🔁' },
   { to: '/cashflow', label: 'Fluxo de caixa', icon: '💵' },
