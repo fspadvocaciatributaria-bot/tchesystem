@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0b" />
+    <title>TcheSystem — Formação de Preços & Gestão</title>
+    <script>
+      // Aplica o tema salvo antes da renderização (evita flash). Escuro é o padrão.
+      (function () {
+        try {
+          var t = localStorage.getItem('tche-theme') || 'dark';
+          var light =
+            t === 'light' ||
+            (t === 'system' && window.matchMedia('(prefers-color-scheme: light)').matches);
+          if (light) document.documentElement.classList.add('light');
+        } catch (e) {}
+      })();
+      // Para-quedas: se um módulo/asset falhar ao carregar (ex.: cache antigo após deploy),
+      // recarrega a página UMA vez para buscar a versão atual. Protegido contra loop.
+      window.addEventListener(
+        'error',
+        function (e) {
+          var msg = (e && (e.message || (e.target && e.target.src))) || '';
+          if (/Loading (chunk|module)|Failed to fetch dynamically|MIME type|module script/i.test(String(msg))) {
+            try {
+              if (!sessionStorage.getItem('tche_reloaded')) {
+                sessionStorage.setItem('tche_reloaded', '1');
+                location.reload();
+              }
+            } catch (x) {}
+          }
+        },
+        true,
+      );
+    </script>
+    <script type="module" crossorigin src="/tchesystem/assets/index-CjpEeTsp.js"></script>
+    <link rel="stylesheet" crossorigin href="/tchesystem/assets/index-Gq5R4UVH.css">
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

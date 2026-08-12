@@ -1,0 +1,8 @@
+# index.html e rotas (SPA) NUNCA são cacheados — sempre buscam a versão atual,
+# evitando a "tela branca" após um novo deploy (index antigo apontando p/ asset inexistente).
+/*
+  Cache-Control: no-store, must-revalidate
+
+# Assets são versionados por hash — podem ser cacheados por muito tempo com segurança.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
