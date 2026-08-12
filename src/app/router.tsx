@@ -12,6 +12,7 @@ import { ProductsPage } from '@/features/products/ProductsPage';
 import { CustomersPage } from '@/features/customers/CustomersPage';
 import { ServicesPage } from '@/features/services/ServicesPage';
 import { FixedCostsPage, VariableCostsPage } from '@/features/costs/CostsPages';
+import { InventoryPage } from '@/features/inventory/InventoryPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { PagePlaceholder } from '@/components/PagePlaceholder';
 
@@ -75,7 +76,7 @@ export const router = createBrowserRouter([
               { path: '/labor', element: <LaborTypesPage /> },
               { path: '/products', element: <ProductsPage /> },
               { path: '/suppliers', element: <SuppliersPage /> },
-              { path: '/inventory', element: ph('Estoque', 'FASE 2', 'Entradas, saídas e ajustes (em construção).') },
+              { path: '/inventory', element: <InventoryPage /> },
               { path: '/costs/fixed', element: <FixedCostsPage /> },
               { path: '/costs/variable', element: <VariableCostsPage /> },
               { path: '/cashflow', element: ph('Fluxo de caixa', 'FASE 5') },
