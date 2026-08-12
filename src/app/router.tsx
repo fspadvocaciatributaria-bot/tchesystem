@@ -22,6 +22,7 @@ import { QuoteViewPage } from '@/features/quotes/QuoteViewPage';
 import { CashflowPage } from '@/features/cashflow/CashflowPage';
 import { HelpCenterPage } from '@/features/help/HelpCenterPage';
 import { ImportXmlPage } from '@/features/import/ImportXmlPage';
+import { AccountPage } from '@/features/account/AccountPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 
 function Loading() {
@@ -96,6 +97,7 @@ export const router = createBrowserRouter([
               { path: '/goals', element: <GoalsPage /> },
               { path: '/settings', element: <SettingsPage /> },
               { path: '/ajuda', element: <HelpCenterPage /> },
+              { path: '/conta', element: <AccountPage /> },
             ],
           },
         ],

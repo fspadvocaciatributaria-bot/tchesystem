@@ -21,6 +21,25 @@ export function QuoteViewPage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const items: any[] = (quote as any).quote_items ?? [];
 
+  function shareWhatsApp() {
+    const empresa = organization?.trade_name || organization?.name || 'Orçamento';
+    const linhas = [
+      `*${empresa}* — Orçamento${quote!.code ? ' ' + quote!.code : ''}`,
+      customer?.name ? `Cliente: ${customer.name}` : null,
+      '',
+      ...items.map((it) => `• ${it.description} — ${it.quantity}x ${formatBRL(it.unit_price)} = ${formatBRL(it.line_total)}`),
+      '',
+      `*Total: ${formatBRL(quote!.total)}*`,
+      quote!.valid_until ? `Válido até ${new Date(quote!.valid_until).toLocaleDateString('pt-BR')}` : null,
+      quote!.terms ? `Condições: ${quote!.terms}` : null,
+    ]
+      .filter((l) => l !== null)
+      .join('\n');
+    const phone = (customer?.phone || '').replace(/\D/g, '');
+    const base = phone ? `https://wa.me/55${phone}` : 'https://wa.me/';
+    window.open(`${base}?text=${encodeURIComponent(linhas)}`, '_blank');
+  }
+
   return (
     <div className="max-w-3xl mx-auto">
       <div className="flex justify-between items-center mb-4 no-print">
@@ -29,6 +48,7 @@ export function QuoteViewPage() {
           {canWrite && (
             <Link to={`/quotes/${id}/edit`} className="btn-ghost">Editar</Link>
           )}
+          <button className="btn-ghost" onClick={shareWhatsApp}>📱 WhatsApp</button>
           <button className="btn-primary" onClick={() => window.print()}>Imprimir / PDF</button>
         </div>
       </div>
