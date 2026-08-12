@@ -31,3 +31,8 @@
 
 ## ADR-007 — Importação de XML fiscal reutiliza um parser único
 **Decisão:** um parser puro (`lib/nfe/parseNfe.ts`, testado) alimenta tanto o estoque quanto o financeiro. No financeiro, o sentido (a pagar/receber) é detectado pelo CNPJ da empresa (`organizations.doc_number`); dedup por chave de acesso. Sem integração SEFAZ nesta fase (só o arquivo XML).
+
+## ADR-008 — Fonte única de dados financeiros (Dashboard/Relatórios sobre `transactions`)
+**Contexto:** o Dashboard e os Relatórios liam o `cash_entries` antigo, enquanto o módulo financeiro usa `transactions` → os mesmos KPIs apareciam divergentes.
+**Decisão:** `transactions` é a fonte única. Migração idempotente (`0012`) converte `cash_entries` → `transactions` (pagos, com "Caixa Geral" padrão); Dashboard, Relatórios, seed demo e a trilha passam a ler/gravar `transactions`. A tabela `cash_entries` fica como histórico congelado (não deletada).
+**Rationale:** consistência dos números exibidos (confiança do usuário); menos superfície de dados.

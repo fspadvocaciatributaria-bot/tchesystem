@@ -37,3 +37,8 @@ Sistema **em produção e estável**. SaaS multi-tenant (React+TS+Vite+Tailwind,
 - **Guarda de env no CI** foi essencial: a causa da "tela branca" era build sem `VITE_SUPABASE_URL`; a guarda impede reincidência.
 - Reaproveitar `CrudManager`/`lib/pricing`/`finance.ts` acelerou muito e manteve consistência — manter esse padrão.
 - Regras financeiras em funções puras testáveis pagam-se: pegaram bugs de expectativa e dão confiança em cada deploy.
+
+## Rodada 1 da equipe (12/08/2026) — concluída
+- **0.1 (base):** `database.types.ts` regenerado com as tabelas financeiras (`tsc` limpo). Restante do 0.1 (remover os `as any` residuais na data-layer financeira) fica como follow-up mecânico — os tipos já estão corretos no projeto.
+- **0.3 (reescopado):** unificada a fonte de dados — Dashboard, Relatórios, seed demo e trilha agora leem/gravam `transactions`. Migração idempotente `0012` converteu `cash_entries` → `transactions` (pagos). `cash_entries` mantido como histórico. Registrado em ADR-008. **Elimina a divergência de KPIs.**
+- Verificação: typecheck limpo, 36 testes, build OK, deploy via CI blindado.

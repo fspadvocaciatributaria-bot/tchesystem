@@ -103,14 +103,24 @@ export async function seedStudioBlack(orgId: string): Promise<string> {
   // Meta
   await supabase.from('goals').insert({ organization_id: orgId, professional_id: null, desired_profit_month: 15000 });
 
-  // Fluxo de caixa (exemplos do mês atual)
+  // Financeiro: conta padrão + lançamentos pagos (módulo novo)
   const today = new Date().toISOString().slice(0, 10);
-  await supabase.from('cash_entries').insert([
-    { organization_id: orgId, direction: 'in', category: 'Serviços', description: 'Tattoo média — Ana', amount: 800, entry_date: today },
-    { organization_id: orgId, direction: 'in', category: 'Serviços', description: 'Tattoo pequena — João', amount: 300, entry_date: today },
-    { organization_id: orgId, direction: 'out', category: 'Materiais', description: 'Reposição de tintas', amount: 250, entry_date: today },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: acc } = await (supabase.from('financial_accounts') as any)
+    .insert({ organization_id: orgId, name: 'Caixa Geral', account_type: 'cash', owner_type: 'company', initial_balance: 0 })
+    .select('id').single();
+  const accId = acc?.id ?? null;
+  const pago = (type: 'receivable' | 'payable', description: string, amount: number) => ({
+    organization_id: orgId, type, description, amount, due_date: today, issue_date: today,
+    status: 'paid', paid_amount: amount, payment_date: today, financial_account_id: accId, document_type: 'manual',
+  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  await (supabase.from('transactions') as any).insert([
+    pago('receivable', 'Tattoo média — Ana', 800),
+    pago('receivable', 'Tattoo pequena — João', 300),
+    pago('payable', 'Reposição de tintas', 250),
   ]);
-  created.push('lançamentos de caixa');
+  created.push('conta + lançamentos financeiros');
 
   return created.join(', ');
 }

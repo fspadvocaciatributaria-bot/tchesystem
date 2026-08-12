@@ -18,16 +18,24 @@ export function DashboardPage() {
   const orgId = organization?.id;
   const cost = useOrgCostParams();
 
+  // Fonte única: transações realizadas (pagas/parciais) do módulo financeiro.
+  // Recebido (receivable) = entrada; pago (payable) = saída; data = pagamento.
   const { data: entries } = useQuery({
     queryKey: ['dash-cash', orgId],
     enabled: !!orgId,
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('cash_entries')
-        .select('direction, amount, entry_date')
-        .eq('organization_id', orgId!);
+        .from('transactions')
+        .select('type, paid_amount, payment_date, due_date, status')
+        .eq('organization_id', orgId!)
+        .is('deleted_at', null)
+        .gt('paid_amount', 0);
       if (error) throw error;
-      return data;
+      return (data ?? []).map((t) => ({
+        direction: t.type === 'receivable' ? 'in' : 'out',
+        amount: t.paid_amount,
+        entry_date: (t.payment_date ?? t.due_date) as string,
+      }));
     },
   });
 

@@ -39,7 +39,7 @@ export function useProgress() {
           count('service_price_formations', id),
           count('customers', id),
           count('quotes', id),
-          count('cash_entries', id),
+          count('transactions', id),
         ]);
 
       return [
@@ -52,7 +52,7 @@ export function useProgress() {
         { key: 'price', label: 'Fazer a formação de preço', hint: 'Descubra custo, mínimo e recomendado.', route: '/pricing', done: formations > 0 },
         { key: 'customer', label: 'Cadastrar um cliente', hint: 'Para gerar orçamentos.', route: '/customers', done: customers > 0 },
         { key: 'quote', label: 'Criar um orçamento', hint: 'Proposta profissional a partir do preço.', route: '/quotes', done: quotes > 0 },
-        { key: 'cash', label: 'Registrar no fluxo de caixa', hint: 'Acompanhe entradas e saídas.', route: '/cashflow', done: cash > 0 },
+        { key: 'cash', label: 'Registrar um lançamento financeiro', hint: 'Contas a pagar/receber no módulo Financeiro.', route: '/financeiro/lancamentos', done: cash > 0 },
       ];
     },
   });

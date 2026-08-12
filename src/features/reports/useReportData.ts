@@ -46,16 +46,25 @@ export function useReportData() {
   const { organization } = useOrg();
   const orgId = organization?.id;
 
+  // Fonte única: transações realizadas do módulo financeiro (mapeadas para o formato de caixa).
   const cash = useQuery({
     queryKey: ['rep-cash', orgId],
     enabled: !!orgId,
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('cash_entries')
-        .select('direction, amount, entry_date, category')
-        .eq('organization_id', orgId!);
+        .from('transactions')
+        .select('type, paid_amount, payment_date, due_date, classification_categories(name)')
+        .eq('organization_id', orgId!)
+        .is('deleted_at', null)
+        .gt('paid_amount', 0);
       if (error) throw error;
-      return data as CashRow[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return (data ?? []).map((t: any) => ({
+        direction: t.type === 'receivable' ? 'in' : 'out',
+        amount: t.paid_amount,
+        entry_date: (t.payment_date ?? t.due_date) as string,
+        category: t.classification_categories?.name ?? null,
+      })) as CashRow[];
     },
   });
 

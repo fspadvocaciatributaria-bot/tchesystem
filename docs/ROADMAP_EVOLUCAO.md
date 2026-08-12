@@ -6,9 +6,9 @@
 ## P0 — Fechar lacunas do que já existe (alto valor, baixo custo)
 | # | Item | Agente | Valor | Esforço | Verificação |
 |---|------|--------|-------|---------|-------------|
-| 0.1 | Regenerar `database.types.ts` com as tabelas financeiras e remover os casts `as any` | dev-fullstack | Médio | S | `tsc` sem casts nas hooks financeiras |
+| 0.1 | ✅ Regenerar `database.types.ts` com as tabelas financeiras e remover os casts `as any` | dev-fullstack | Médio | S | `tsc` sem casts nas hooks financeiras |
 | 0.2 | Multa/juros automáticos na baixa de vencidos (setting `late_fee_percent`, `interest_monthly_percent`) | dev-fullstack | Alto | M | Baixa de título vencido sugere multa+juros calculados |
-| 0.3 | Migração dos `cash_entries` legados → `transactions` (pagos), com conta padrão | dev-fullstack | Médio | M | Lançamentos antigos aparecem no painel financeiro |
+| 0.3 | ✅ (reescopado) Migração dos `cash_entries` legados → `transactions` (pagos), com conta padrão | dev-fullstack | Médio | M | Lançamentos antigos aparecem no painel financeiro |
 | 0.4 | PDF real do orçamento (@react-pdf/renderer) com logo e layout profissional | dev-fullstack + ux | Alto | M | Botão "Baixar PDF" gera arquivo fiel ao print |
 
 ## P1 — Diferencial e produtividade
