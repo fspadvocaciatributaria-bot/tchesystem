@@ -13,7 +13,8 @@ Supabase (PostgreSQL, Auth, RLS, Storage) · React + TypeScript + Vite · Tailwi
 TanStack Query · React Router · Recharts · Zod · Vitest.
 
 ## Link público
-🌐 **App no ar:** https://fspadvocaciatributaria-bot.github.io/tchesystem/ (GitHub Pages, branch `gh-pages`)
+🌐 **App no ar:** **https://tchesystem.netlify.app** (Netlify)
+Espelho: https://fspadvocaciatributaria-bot.github.io/tchesystem/ (GitHub Pages, branch `gh-pages`)
 
 ## Status
 ✅ **MVP completo** (FASES 0–6). Backend Supabase provisionado e conectado; app React+TS+Vite
