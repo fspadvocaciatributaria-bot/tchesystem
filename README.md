@@ -13,9 +13,20 @@ Supabase (PostgreSQL, Auth, RLS, Storage) · React + TypeScript + Vite · Tailwi
 TanStack Query · React Router · Recharts · Zod · Vitest.
 
 ## Status
-✅ **FASE 0** (planejamento) e **FASE 1** (fundação) concluídas. App React+TS+Vite compila,
-26 testes passam, motor de precificação (`src/lib/pricing`) implementado, auth + layouts
-responsivos + roteamento prontos. Próxima: **FASE 2 — Cadastros**.
+✅ **MVP completo** (FASES 0–6). Backend Supabase provisionado e conectado; app React+TS+Vite
+compila, testes passam (lógica financeira + RLS), RLS verificado contra o banco real.
+
+### Funcionalidades
+- **Autenticação** (Supabase Auth) e **multi-tenancy** com RLS em todas as tabelas
+- **Onboarding**: cria organização (proprietário) e escolhe profissão/nicho
+- **Cadastros**: profissionais, mão de obra, fornecedores, produtos, custos fixos/variáveis, clientes, serviços
+- **Estoque**: entradas/saídas/ajustes via RPC com **custo médio ponderado** e alerta de mínimo
+- **Formação de preço** (núcleo): mão de obra + materiais + rateio de custo fixo → **custo / mínimo / recomendado / premium** com breakdown explicável
+- **Minha Meta**: simulador de faturamento necessário / hora / dia / nº de serviços
+- **Orçamentos**: criados a partir do preço formado, com desconto, alerta de preço abaixo do mínimo e **visão profissional print-ready**
+- **Fluxo de caixa** com períodos e indicadores; **Dashboard** executivo com KPIs e gráfico
+- **Dados demonstrativos** (Studio Black) carregáveis em Configurações
+- Layouts responsivos distintos (desktop sidebar / mobile bottom-nav)
 
 ## Documentação
 | Documento | Conteúdo |
@@ -54,9 +65,21 @@ npm run build      # build de produção
 4. (Opcional) Rode o seed de `supabase/seed/` para dados demonstrativos.
 
 ## Deploy
-Build estático (`npm run build`) servido por Vercel, Netlify ou Cloudflare Pages.
-Configure as variáveis `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY` no painel do host.
-Detalhes ao final da FASE 6.
+Build estático (`npm run build` → `dist/`) servido por Vercel, Netlify ou Cloudflare Pages.
+
+1. Faça push do repositório para o GitHub e conecte ao host.
+2. Build command: `npm run build` · Output: `dist`.
+3. Configure as variáveis de ambiente no painel do host:
+   `VITE_SUPABASE_URL` e `VITE_SUPABASE_ANON_KEY`.
+4. **SPA routing** já configurado: `vercel.json` (rewrites) e `public/_redirects` (Netlify/Cloudflare)
+   garantem que rotas do React Router não retornem 404.
+
+Após o deploy, envie o link público para sócios/testadores. O cadastro exige confirmação de
+e-mail (padrão do Supabase); para testes rápidos, é possível desativar em
+Authentication → Providers → Email no painel do Supabase.
+
+> **Nota:** este repositório já está conectado a um projeto Supabase provisionado (com o schema,
+> RLS e seed aplicados). As credenciais ficam em `.env.local` (não versionado).
 
 ## Segurança
 RLS em todas as tabelas · isolamento por organização · validação Zod + constraints no banco ·
