@@ -16,6 +16,23 @@
           if (light) document.documentElement.classList.add('light');
         } catch (e) {}
       })();
+      // Para-quedas: se um módulo/asset falhar ao carregar (ex.: cache antigo após deploy),
+      // recarrega a página UMA vez para buscar a versão atual. Protegido contra loop.
+      window.addEventListener(
+        'error',
+        function (e) {
+          var msg = (e && (e.message || (e.target && e.target.src))) || '';
+          if (/Loading (chunk|module)|Failed to fetch dynamically|MIME type|module script/i.test(String(msg))) {
+            try {
+              if (!sessionStorage.getItem('tche_reloaded')) {
+                sessionStorage.setItem('tche_reloaded', '1');
+                location.reload();
+              }
+            } catch (x) {}
+          }
+        },
+        true,
+      );
     </script>
   </head>
   <body>
