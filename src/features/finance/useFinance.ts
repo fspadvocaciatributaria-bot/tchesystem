@@ -114,7 +114,40 @@ export function useFinanceMutations() {
     onSuccess: invalidate,
   });
 
-  return { createTransactions, updateTransaction, cancelTransaction, registerPayment };
+  const reversePayment = useMutation({
+    mutationFn: async (paymentId: string) => {
+      const { error } = await sb.rpc('reverse_payment', { p_payment: paymentId });
+      if (error) throw error;
+    },
+    onSuccess: invalidate,
+  });
+
+  return { createTransactions, updateTransaction, cancelTransaction, registerPayment, reversePayment };
+}
+
+export interface PaymentRow {
+  id: string;
+  paid_amount: number;
+  payment_date: string;
+  payment_method: string;
+  receipt_reference: string | null;
+}
+
+/** Histórico de baixas de um título. */
+export function usePayments(transactionId: string | null) {
+  return useQuery({
+    queryKey: ['fin-payments', transactionId],
+    enabled: !!transactionId,
+    queryFn: async () => {
+      const { data, error } = await sb
+        .from('transaction_payments')
+        .select('id, paid_amount, payment_date, payment_method, receipt_reference')
+        .eq('transaction_id', transactionId)
+        .order('payment_date', { ascending: false });
+      if (error) throw error;
+      return (data ?? []) as PaymentRow[];
+    },
+  });
 }
 
 export function useAccountMutations() {

@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { Modal } from '@/components/Modal';
 import { formatBRL } from '@/lib/money/format';
 import { useOrg } from '@/features/organization/OrgProvider';
-import { useTransactions, useAccounts, useCategories, useFinanceMutations } from './useFinance';
+import { useTransactions, useAccounts, useCategories, useFinanceMutations, usePayments } from './useFinance';
 import { openAmount, displayStatus, buildInstallments } from './finance';
 import { PAYMENT_METHOD_LABEL, STATUS_LABEL, type PaymentMethod, type Transaction, type TransactionType } from './types';
 
@@ -26,7 +26,9 @@ export function TransactionsPage() {
   const { data: txs, isLoading } = useTransactions();
   const { data: accounts } = useAccounts();
   const { data: cats } = useCategories();
-  const { createTransactions, cancelTransaction, registerPayment } = useFinanceMutations();
+  const { createTransactions, cancelTransaction, registerPayment, reversePayment } = useFinanceMutations();
+  const [histTx, setHistTx] = useState<Transaction | null>(null);
+  const { data: payments } = usePayments(histTx?.id ?? null);
 
   const { data: people } = useQuery({
     queryKey: ['fin-people', orgId],
@@ -187,10 +189,13 @@ export function TransactionsPage() {
                   <td className="px-3 py-2"><StatusBadge t={t} /></td>
                   <td className="px-3 py-2 text-right whitespace-nowrap">
                     {canWrite && (t.status === 'pending' || t.status === 'partial') && (
-                      <>
-                        <button className="text-xs text-success hover:underline mr-2" onClick={() => openPay(t)}>Baixar</button>
-                        <button className="text-xs text-critical hover:underline" onClick={() => { if (confirm('Cancelar título?')) cancelTransaction.mutate(t.id); }}>Cancelar</button>
-                      </>
+                      <button className="text-xs text-success hover:underline mr-2" onClick={() => openPay(t)}>Baixar</button>
+                    )}
+                    {t.paid_amount > 0 && (
+                      <button className="text-xs text-gold hover:underline mr-2" onClick={() => setHistTx(t)}>Baixas</button>
+                    )}
+                    {canWrite && (t.status === 'pending' || t.status === 'partial') && (
+                      <button className="text-xs text-critical hover:underline" onClick={() => { if (confirm('Cancelar título?')) cancelTransaction.mutate(t.id); }}>Cancelar</button>
                     )}
                   </td>
                 </tr>
@@ -270,6 +275,50 @@ export function TransactionsPage() {
             <div className="col-span-2 flex justify-end gap-2 pt-2">
               <button className="btn-ghost" onClick={() => setPayTx(null)}>Cancelar</button>
               <button className="btn-primary" onClick={submitPay} disabled={registerPayment.isPending}>Confirmar baixa</button>
+            </div>
+          </div>
+        )}
+      </Modal>
+
+      {/* Histórico de baixas + estorno */}
+      <Modal open={!!histTx} onClose={() => setHistTx(null)} title="Histórico de baixas">
+        {histTx && (
+          <div>
+            <p className="text-sm text-muted mb-3">{histTx.description}</p>
+            {(payments ?? []).length === 0 ? (
+              <p className="text-sm text-muted">Nenhuma baixa registrada.</p>
+            ) : (
+              <table className="w-full text-sm">
+                <thead><tr className="text-left text-xs text-muted border-b border-ink-border">
+                  <th className="py-2">Data</th><th className="py-2">Forma</th>
+                  <th className="py-2 text-right">Valor</th><th className="py-2" />
+                </tr></thead>
+                <tbody>
+                  {(payments ?? []).map((p) => (
+                    <tr key={p.id} className="border-b border-ink-border/50 last:border-0">
+                      <td className="py-2 text-muted-soft">{new Date(p.payment_date + 'T00:00:00').toLocaleDateString('pt-BR')}</td>
+                      <td className="py-2 text-muted-soft">{PAYMENT_METHOD_LABEL[p.payment_method as PaymentMethod] ?? p.payment_method}</td>
+                      <td className="py-2 text-right text-success">{formatBRL(p.paid_amount)}</td>
+                      <td className="py-2 text-right">
+                        {canWrite && (
+                          <button
+                            className="text-xs text-critical hover:underline"
+                            onClick={async () => {
+                              if (!confirm('Estornar esta baixa? O título volta ao status anterior.')) return;
+                              try { await reversePayment.mutateAsync(p.id); } catch (e) { alert(e instanceof Error ? e.message : 'Erro'); }
+                            }}
+                          >
+                            Estornar
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+            <div className="flex justify-end pt-3">
+              <button className="btn-ghost" onClick={() => setHistTx(null)}>Fechar</button>
             </div>
           </div>
         )}

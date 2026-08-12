@@ -29,6 +29,7 @@ import { TransactionsPage } from '@/features/finance/TransactionsPage';
 import { AccountsPage } from '@/features/finance/AccountsPage';
 import { ClassificationsPage } from '@/features/finance/ClassificationsPage';
 import { FinancialImportPage } from '@/features/finance/FinancialImportPage';
+import { FinanceReportsPage } from '@/features/finance/FinanceReportsPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 
 function Loading() {
@@ -104,6 +105,7 @@ export const router = createBrowserRouter([
               { path: '/financeiro/contas', element: <AccountsPage /> },
               { path: '/financeiro/classificacoes', element: <ClassificationsPage /> },
               { path: '/financeiro/importar', element: <FinancialImportPage /> },
+              { path: '/financeiro/relatorios', element: <FinanceReportsPage /> },
               // Fluxo de caixa antigo substituído pelo módulo Financeiro.
               { path: '/cashflow', element: <Navigate to="/financeiro" replace /> },
               { path: '/goals', element: <GoalsPage /> },
