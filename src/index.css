@@ -38,27 +38,48 @@ body {
 
 @layer components {
   .card {
-    @apply bg-ink-card border border-ink-border rounded-xl2 p-4;
+    @apply bg-ink-card border border-ink-border rounded-xl2 p-4 shadow-sm;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 1px 3px rgb(0 0 0 / 0.05);
   }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none active:scale-[0.98];
   }
   .btn-primary {
     /* Texto fixo escuro para bom contraste sobre o dourado em ambos os temas. */
-    @apply btn bg-gold text-[#0a0a0b] hover:bg-gold-soft;
+    @apply btn bg-gold text-[#0a0a0b] hover:bg-gold-soft shadow-sm;
   }
   .btn-ghost {
-    @apply btn border border-ink-border text-muted-soft hover:bg-ink-soft;
+    @apply btn border border-ink-border text-muted-soft hover:bg-ink-soft hover:border-muted/40;
   }
   .btn-danger {
-    @apply btn bg-critical text-white hover:bg-critical-soft;
+    @apply btn bg-critical text-white hover:bg-critical-soft shadow-sm;
   }
   .input {
-    @apply w-full rounded-lg bg-ink-soft border border-ink-border px-3 py-2 text-sm text-strong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/50;
+    @apply w-full rounded-lg bg-ink-soft border border-ink-border px-3 py-2 text-sm text-strong placeholder:text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-gold/40 focus:border-gold/50;
   }
   .label {
     @apply block text-xs font-medium text-muted mb-1;
   }
+}
+
+/* Scrollbar fina e moderna */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(var(--border)) transparent;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 9999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--muted));
+  background-clip: content-box;
 }
 
 /* Impressão de orçamentos (FASE 4) */
