@@ -16,6 +16,7 @@ export const NAV_ITEMS: NavItem[] = [
   { to: '/professionals', label: 'Profissionais', icon: '🧑‍🔧' },
   { to: '/labor', label: 'Mão de obra', icon: '⏱️' },
   { to: '/products', label: 'Produtos', icon: '📦' },
+  { to: '/suppliers', label: 'Fornecedores', icon: '🚚' },
   { to: '/inventory', label: 'Estoque', icon: '🏷️', primaryMobile: true },
   { to: '/costs/fixed', label: 'Custos fixos', icon: '🏠' },
   { to: '/costs/variable', label: 'Custos variáveis', icon: '🔁' },

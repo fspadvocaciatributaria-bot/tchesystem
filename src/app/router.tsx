@@ -1,17 +1,44 @@
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { useOrg } from '@/features/organization/OrgProvider';
 import { LoginPage, SignupPage, RecoverPage } from '@/features/auth/AuthPages';
+import { OnboardingPage } from '@/features/organization/OnboardingPage';
 import { AppLayout } from '@/layouts/AppLayout';
 import { DashboardPage } from '@/features/dashboard/DashboardPage';
+import { ProfessionalsPage } from '@/features/professionals/ProfessionalsPage';
+import { LaborTypesPage } from '@/features/labor/LaborTypesPage';
+import { SuppliersPage } from '@/features/suppliers/SuppliersPage';
+import { ProductsPage } from '@/features/products/ProductsPage';
+import { CustomersPage } from '@/features/customers/CustomersPage';
+import { ServicesPage } from '@/features/services/ServicesPage';
+import { FixedCostsPage, VariableCostsPage } from '@/features/costs/CostsPages';
+import { SettingsPage } from '@/features/settings/SettingsPage';
 import { PagePlaceholder } from '@/components/PagePlaceholder';
+
+function Loading() {
+  return <div className="min-h-full grid place-items-center text-muted">Carregando…</div>;
+}
 
 function ProtectedRoute() {
   const { session, loading } = useAuth();
-  if (loading) {
-    return <div className="min-h-full grid place-items-center text-muted">Carregando…</div>;
-  }
+  if (loading) return <Loading />;
   if (!session) return <Navigate to="/login" replace />;
   return <Outlet />;
+}
+
+// Exige organização; se não houver, manda para o onboarding.
+function OrgGate() {
+  const { organization, loading } = useOrg();
+  if (loading) return <Loading />;
+  if (!organization) return <Navigate to="/onboarding" replace />;
+  return <Outlet />;
+}
+
+function OnboardingGate() {
+  const { organization, loading } = useOrg();
+  if (loading) return <Loading />;
+  if (organization) return <Navigate to="/" replace />;
+  return <OnboardingPage />;
 }
 
 function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
@@ -32,23 +59,30 @@ export const router = createBrowserRouter([
   {
     element: <ProtectedRoute />,
     children: [
+      { path: '/onboarding', element: <OnboardingGate /> },
       {
-        element: <AppLayout />,
+        element: <OrgGate />,
         children: [
-          { path: '/', element: <DashboardPage /> },
-          { path: '/services', element: ph('Serviços', 'FASE 2') },
-          { path: '/pricing', element: ph('Formação de Preço', 'FASE 3', 'Módulo central de precificação.') },
-          { path: '/quotes', element: ph('Orçamentos', 'FASE 4') },
-          { path: '/customers', element: ph('Clientes', 'FASE 2') },
-          { path: '/professionals', element: ph('Profissionais', 'FASE 2') },
-          { path: '/labor', element: ph('Mão de obra', 'FASE 2') },
-          { path: '/products', element: ph('Produtos', 'FASE 2') },
-          { path: '/inventory', element: ph('Estoque', 'FASE 2') },
-          { path: '/costs/fixed', element: ph('Custos fixos', 'FASE 2') },
-          { path: '/costs/variable', element: ph('Custos variáveis', 'FASE 2') },
-          { path: '/cashflow', element: ph('Fluxo de caixa', 'FASE 5') },
-          { path: '/goals', element: ph('Minha meta', 'FASE 3') },
-          { path: '/settings', element: ph('Configurações', 'FASE 2') },
+          {
+            element: <AppLayout />,
+            children: [
+              { path: '/', element: <DashboardPage /> },
+              { path: '/services', element: <ServicesPage /> },
+              { path: '/pricing', element: ph('Formação de Preço', 'FASE 3', 'Módulo central de precificação.') },
+              { path: '/quotes', element: ph('Orçamentos', 'FASE 4') },
+              { path: '/customers', element: <CustomersPage /> },
+              { path: '/professionals', element: <ProfessionalsPage /> },
+              { path: '/labor', element: <LaborTypesPage /> },
+              { path: '/products', element: <ProductsPage /> },
+              { path: '/suppliers', element: <SuppliersPage /> },
+              { path: '/inventory', element: ph('Estoque', 'FASE 2', 'Entradas, saídas e ajustes (em construção).') },
+              { path: '/costs/fixed', element: <FixedCostsPage /> },
+              { path: '/costs/variable', element: <VariableCostsPage /> },
+              { path: '/cashflow', element: ph('Fluxo de caixa', 'FASE 5') },
+              { path: '/goals', element: ph('Minha meta', 'FASE 3') },
+              { path: '/settings', element: <SettingsPage /> },
+            ],
+          },
         ],
       },
     ],
