@@ -48,13 +48,13 @@ export function OnboardingPage() {
     <div className="min-h-full grid place-items-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <div className="text-2xl font-bold text-white">
+          <div className="text-2xl font-bold text-strong">
             Tche<span className="text-gold">System</span>
           </div>
           <p className="text-sm text-muted mt-1">Vamos configurar seu negócio</p>
         </div>
         <div className="card">
-          <h1 className="text-lg font-semibold text-white mb-1">Criar sua empresa/estúdio</h1>
+          <h1 className="text-lg font-semibold text-strong mb-1">Criar sua empresa/estúdio</h1>
           <p className="text-xs text-muted mb-4">
             Você será o proprietário. Poderá ajustar tudo depois em Configurações.
           </p>

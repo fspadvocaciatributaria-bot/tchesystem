@@ -12,7 +12,7 @@ export function SuppliersPage() {
       singular="fornecedor"
       orderBy="name"
       columns={[
-        { header: 'Nome', render: (r) => <span className="text-white">{r.name}</span> },
+        { header: 'Nome', render: (r) => <span className="text-strong">{r.name}</span> },
         { header: 'Telefone', render: (r) => r.phone ?? '—' },
         { header: 'E-mail', render: (r) => r.email ?? '—' },
       ]}

@@ -2,8 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Tema ESCURO (padrão). Valores RGB separados por espaço (para alpha do Tailwind). */
 :root {
+  --bg: 10 10 11; /* #0a0a0b */
+  --surface: 20 20 22; /* #141416 */
+  --card: 27 27 31; /* #1b1b1f */
+  --border: 42 42 48; /* #2a2a30 */
+  --strong: 255 255 255; /* branco */
+  --muted: 138 138 146; /* #8a8a92 */
+  --muted-soft: 180 180 188; /* #b4b4bc */
   color-scheme: dark;
+}
+
+/* Tema CLARO */
+:root.light {
+  --bg: 246 247 249; /* #f6f7f9 */
+  --surface: 255 255 255; /* #ffffff */
+  --card: 255 255 255; /* #ffffff */
+  --border: 226 228 233; /* #e2e4e9 */
+  --strong: 17 18 22; /* #111216 */
+  --muted: 100 104 112; /* #646870 */
+  --muted-soft: 55 58 64; /* #373a40 */
+  color-scheme: light;
 }
 
 html,
@@ -24,7 +44,8 @@ body {
     @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:pointer-events-none;
   }
   .btn-primary {
-    @apply btn bg-gold text-ink hover:bg-gold-soft;
+    /* Texto fixo escuro para bom contraste sobre o dourado em ambos os temas. */
+    @apply btn bg-gold text-[#0a0a0b] hover:bg-gold-soft;
   }
   .btn-ghost {
     @apply btn border border-ink-border text-muted-soft hover:bg-ink-soft;
@@ -33,7 +54,7 @@ body {
     @apply btn bg-critical text-white hover:bg-critical-soft;
   }
   .input {
-    @apply w-full rounded-lg bg-ink-soft border border-ink-border px-3 py-2 text-sm text-white placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/50;
+    @apply w-full rounded-lg bg-ink-soft border border-ink-border px-3 py-2 text-sm text-strong placeholder:text-muted focus:outline-none focus:ring-2 focus:ring-gold/50;
   }
   .label {
     @apply block text-xs font-medium text-muted mb-1;

@@ -7,13 +7,13 @@ function AuthShell({ title, children }: { title: string; children: React.ReactNo
     <div className="min-h-full grid place-items-center p-4">
       <div className="w-full max-w-sm">
         <div className="text-center mb-6">
-          <div className="text-2xl font-bold text-white">
+          <div className="text-2xl font-bold text-strong">
             Tche<span className="text-gold">System</span>
           </div>
           <p className="text-xs text-muted mt-1">Formação de Preços & Gestão</p>
         </div>
         <div className="card">
-          <h1 className="text-lg font-semibold text-white mb-4">{title}</h1>
+          <h1 className="text-lg font-semibold text-strong mb-4">{title}</h1>
           {children}
         </div>
       </div>

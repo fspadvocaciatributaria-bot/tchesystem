@@ -12,7 +12,7 @@ export function ServicesPage() {
       singular="serviço"
       orderBy="name"
       columns={[
-        { header: 'Serviço', render: (r) => <span className="text-white">{r.name}</span> },
+        { header: 'Serviço', render: (r) => <span className="text-strong">{r.name}</span> },
         { header: 'Categoria', render: (r) => r.category ?? '—' },
         { header: 'Horas estimadas', render: (r) => `${r.estimated_hours}h` },
         {

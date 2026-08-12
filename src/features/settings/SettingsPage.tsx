@@ -81,12 +81,12 @@ export function SettingsPage() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-xl font-semibold text-white mb-1">Configurações</h1>
+      <h1 className="text-xl font-semibold text-strong mb-1">Configurações</h1>
       <p className="text-sm text-muted mb-6">Dados da empresa e parâmetros de precificação.</p>
 
       <form onSubmit={onSubmit} className="space-y-6">
         <section className="card">
-          <h2 className="text-sm font-semibold text-white mb-3">Empresa</h2>
+          <h2 className="text-sm font-semibold text-strong mb-3">Empresa</h2>
           <div className="grid grid-cols-2 gap-3">
             <Field label="Nome" name="name" value={form.name} onChange={set} span2 />
             <Field label="Nome fantasia" name="trade_name" value={form.trade_name} onChange={set} />
@@ -97,7 +97,7 @@ export function SettingsPage() {
         </section>
 
         <section className="card">
-          <h2 className="text-sm font-semibold text-white mb-1">Produtividade</h2>
+          <h2 className="text-sm font-semibold text-strong mb-1">Produtividade</h2>
           <p className="text-xs text-muted mb-3">
             Usado para ratear custos fixos por hora. Horas produtivas mensais atuais:{' '}
             <span className="text-gold">{prodHoursMonth.toFixed(1)}h</span>.
@@ -110,7 +110,7 @@ export function SettingsPage() {
         </section>
 
         <section className="card">
-          <h2 className="text-sm font-semibold text-white mb-1">Impostos e margens</h2>
+          <h2 className="text-sm font-semibold text-strong mb-1">Impostos e margens</h2>
           <p className="text-xs text-muted mb-3">
             Imposto sobre a receita (ex.: Simples) e as três margens (sobre o preço). Regra: mín ≤ recomendada ≤ premium.
           </p>
@@ -159,7 +159,7 @@ function DemoDataSection({ orgId, onDone }: { orgId: string; onDone: () => void 
 
   return (
     <section className="card mt-6 border-dashed">
-      <h2 className="text-sm font-semibold text-white mb-1">Dados demonstrativos</h2>
+      <h2 className="text-sm font-semibold text-strong mb-1">Dados demonstrativos</h2>
       <p className="text-xs text-muted mb-3">
         Popula a organização com um exemplo de estúdio de tatuagem (profissionais, produtos com estoque,
         custos, serviços, clientes, meta e fluxo de caixa) para você explorar o sistema.

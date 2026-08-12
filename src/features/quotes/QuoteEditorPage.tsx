@@ -141,7 +141,7 @@ export function QuoteEditorPage() {
 
   return (
     <div className="max-w-3xl space-y-5">
-      <h1 className="text-xl font-semibold text-white">{editing ? 'Editar orçamento' : 'Novo orçamento'}</h1>
+      <h1 className="text-xl font-semibold text-strong">{editing ? 'Editar orçamento' : 'Novo orçamento'}</h1>
 
       <div className="card grid sm:grid-cols-2 gap-3">
         <div>
@@ -175,7 +175,7 @@ export function QuoteEditorPage() {
 
       <div className="card">
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-semibold text-white">Itens</h2>
+          <h2 className="text-sm font-semibold text-strong">Itens</h2>
           <select
             className="input max-w-[220px]"
             value=""
@@ -230,7 +230,7 @@ export function QuoteEditorPage() {
         <div className="flex flex-col justify-end text-sm">
           <div className="flex justify-between text-muted"><span>Subtotal</span><span>{formatBRL(totals.subtotal)}</span></div>
           <div className="flex justify-between text-muted"><span>Desconto</span><span>-{formatBRL(totals.discount)}</span></div>
-          <div className="flex justify-between text-white font-semibold text-lg"><span>Total</span><span className="text-gold">{formatBRL(totals.total)}</span></div>
+          <div className="flex justify-between text-strong font-semibold text-lg"><span>Total</span><span className="text-gold">{formatBRL(totals.total)}</span></div>
         </div>
         <div className="sm:col-span-2">
           <label className="label">Condições / prazo</label>

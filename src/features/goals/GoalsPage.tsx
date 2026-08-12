@@ -68,7 +68,7 @@ export function GoalsPage() {
   return (
     <div className="max-w-3xl space-y-6">
       <div>
-        <h1 className="text-xl font-semibold text-white mb-1">Minha Meta</h1>
+        <h1 className="text-xl font-semibold text-strong mb-1">Minha Meta</h1>
         <p className="text-sm text-muted">
           Descubra quanto precisa faturar para atingir o lucro desejado. Custos fixos mensais:{' '}
           <span className="text-gold">{formatBRL(cost.totalMonthlyFixed)}</span>.
@@ -122,7 +122,7 @@ function Metric({ label, value, accent }: { label: string; value: string; accent
   return (
     <div className="card">
       <div className="text-xs text-muted">{label}</div>
-      <div className={`text-2xl font-semibold mt-1 ${accent ? 'text-gold' : 'text-white'}`}>{value}</div>
+      <div className={`text-2xl font-semibold mt-1 ${accent ? 'text-gold' : 'text-strong'}`}>{value}</div>
     </div>
   );
 }

@@ -73,7 +73,7 @@ export function CrudManager<T extends { id: string }>({
     <div>
       <div className="flex items-start justify-between mb-4 gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-white">{title}</h1>
+          <h1 className="text-xl font-semibold text-strong">{title}</h1>
           {subtitle && <p className="text-sm text-muted mt-1">{subtitle}</p>}
         </div>
         {canWrite && (

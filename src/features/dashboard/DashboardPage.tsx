@@ -111,7 +111,7 @@ export function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-white mb-1">Dashboard</h1>
+      <h1 className="text-xl font-semibold text-strong mb-1">Dashboard</h1>
       <p className="text-sm text-muted mb-6">Visão do mês atual.</p>
 
       <LearningTrail />
@@ -126,7 +126,7 @@ export function DashboardPage() {
       </div>
 
       <div className="card mb-6">
-        <h2 className="text-sm font-semibold text-white mb-3">Entradas × Saídas (6 meses)</h2>
+        <h2 className="text-sm font-semibold text-strong mb-3">Entradas × Saídas (6 meses)</h2>
         <div className="h-64">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData}>
@@ -160,7 +160,7 @@ export function DashboardPage() {
 
 function Kpi({ label, value, accent }: { label: string; value: string; accent?: 'gold' | 'critical' | 'success' }) {
   const color =
-    accent === 'gold' ? 'text-gold' : accent === 'critical' ? 'text-critical' : accent === 'success' ? 'text-success' : 'text-white';
+    accent === 'gold' ? 'text-gold' : accent === 'critical' ? 'text-critical' : accent === 'success' ? 'text-success' : 'text-strong';
   return (
     <div className="card">
       <div className="text-xs text-muted">{label}</div>

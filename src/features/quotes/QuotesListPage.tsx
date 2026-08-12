@@ -20,7 +20,7 @@ export function QuotesListPage() {
     <div>
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h1 className="text-xl font-semibold text-white">Orçamentos</h1>
+          <h1 className="text-xl font-semibold text-strong">Orçamentos</h1>
           <p className="text-sm text-muted mt-1">Propostas criadas a partir dos preços formados.</p>
         </div>
         {canWrite && (
@@ -50,7 +50,7 @@ export function QuotesListPage() {
             <tbody>
               {data.map((q) => (
                 <tr key={q.id} className="border-b border-ink-border/50 last:border-0 hover:bg-ink-soft/40">
-                  <td className="px-4 py-3 text-white">{q.code ?? '—'}</td>
+                  <td className="px-4 py-3 text-strong">{q.code ?? '—'}</td>
                   {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
                   <td className="px-4 py-3 text-muted-soft">{(q as any).customers?.name ?? '—'}</td>
                   <td className="px-4 py-3 text-muted-soft">{STATUS_LABEL[q.status]}</td>

@@ -27,13 +27,13 @@ export function LearningTrail() {
         <div className="flex items-center gap-3">
           <span className="text-xl">🚀</span>
           <div>
-            <h2 className="text-white font-semibold text-sm">Primeiros passos</h2>
+            <h2 className="text-strong font-semibold text-sm">Primeiros passos</h2>
             <p className="text-xs text-muted">
               {done} de {total} concluídos — vamos deixar seu sistema pronto para usar.
             </p>
           </div>
         </div>
-        <button className="text-xs text-muted hover:text-white" onClick={() => setCollapsed((v) => !v)}>
+        <button className="text-xs text-muted hover:text-strong" onClick={() => setCollapsed((v) => !v)}>
           {collapsed ? 'Expandir' : 'Recolher'}
         </button>
       </div>
@@ -57,7 +57,7 @@ export function LearningTrail() {
                   {s.done ? '✓' : '○'}
                 </span>
                 <span className="flex-1">
-                  <span className={`text-sm ${s.done ? 'line-through text-muted' : 'text-white'}`}>
+                  <span className={`text-sm ${s.done ? 'line-through text-muted' : 'text-strong'}`}>
                     {s.label}
                   </span>
                   {!s.done && <span className="block text-xs text-muted">{s.hint}</span>}

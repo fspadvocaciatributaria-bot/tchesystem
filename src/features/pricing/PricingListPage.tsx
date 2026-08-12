@@ -32,7 +32,7 @@ export function PricingListPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-white mb-1">Formação de Preço</h1>
+      <h1 className="text-xl font-semibold text-strong mb-1">Formação de Preço</h1>
       <p className="text-sm text-muted mb-6">
         Escolha um serviço para montar a formação de preço (custo, mínimo, recomendado, premium).
       </p>
@@ -54,7 +54,7 @@ export function PricingListPage() {
               <Link key={s.id} to={`/pricing/${s.id}`} className="card hover:border-gold/50 transition-colors">
                 <div className="flex items-start justify-between">
                   <div>
-                    <div className="text-white font-medium">{s.name}</div>
+                    <div className="text-strong font-medium">{s.name}</div>
                     <div className="text-xs text-muted">{s.category ?? 'Sem categoria'} · {s.estimated_hours}h</div>
                   </div>
                 </div>

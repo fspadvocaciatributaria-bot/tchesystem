@@ -70,7 +70,7 @@ export function InventoryPage() {
     <div>
       <div className="flex items-start justify-between mb-4 gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-white">Estoque</h1>
+          <h1 className="text-xl font-semibold text-strong">Estoque</h1>
           <p className="text-sm text-muted mt-1">Entradas, saídas e ajustes. O custo médio é recalculado nas entradas.</p>
         </div>
         {canWrite && (
@@ -101,7 +101,7 @@ export function InventoryPage() {
           <tbody>
             {(products ?? []).map((p) => (
               <tr key={p.id} className="border-b border-ink-border/50 last:border-0">
-                <td className="px-4 py-3 text-white">{p.name}</td>
+                <td className="px-4 py-3 text-strong">{p.name}</td>
                 <td className={`px-4 py-3 ${p.stock_current < p.stock_min ? 'text-critical' : 'text-muted-soft'}`}>
                   {p.stock_current}
                 </td>
@@ -121,7 +121,7 @@ export function InventoryPage() {
       </div>
 
       {/* Histórico de movimentações */}
-      <h2 className="text-sm font-semibold text-white mb-2">Histórico de movimentações</h2>
+      <h2 className="text-sm font-semibold text-strong mb-2">Histórico de movimentações</h2>
       <div className="card overflow-x-auto p-0">
         <table className="w-full text-sm">
           <thead>
@@ -143,7 +143,7 @@ export function InventoryPage() {
               (movements ?? []).map((m) => (
                 <tr key={m.id} className="border-b border-ink-border/50 last:border-0">
                   <td className="px-4 py-3 text-muted">{new Date(m.created_at).toLocaleDateString('pt-BR')}</td>
-                  <td className="px-4 py-3 text-white">{m.products?.name ?? '—'}</td>
+                  <td className="px-4 py-3 text-strong">{m.products?.name ?? '—'}</td>
                   <td className="px-4 py-3">
                     <span className={m.type === 'in' ? 'text-success' : m.type === 'out' ? 'text-critical' : 'text-warning'}>
                       {TYPE_LABEL[m.type]}

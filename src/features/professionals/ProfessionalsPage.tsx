@@ -14,7 +14,7 @@ export function ProfessionalsPage() {
       singular="profissional"
       orderBy="name"
       columns={[
-        { header: 'Nome', render: (r) => <span className="text-white">{r.name}</span> },
+        { header: 'Nome', render: (r) => <span className="text-strong">{r.name}</span> },
         { header: 'Especialidade', render: (r) => r.specialty ?? '—' },
         { header: 'Telefone', render: (r) => r.phone ?? '—' },
         {

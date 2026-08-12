@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { NAV_ITEMS, MOBILE_PRIMARY } from '@/app/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
+import { ThemeToggle } from '@/features/theme/ThemeProvider';
 
 export function MobileLayout() {
   const { user, signOut } = useAuth();
@@ -10,12 +11,15 @@ export function MobileLayout() {
   return (
     <div className="min-h-full flex flex-col">
       <header className="flex items-center justify-between px-4 py-3 bg-ink-soft border-b border-ink-border sticky top-0 z-10">
-        <div className="text-lg font-bold text-white">
+        <div className="text-lg font-bold text-strong">
           Tche<span className="text-gold">System</span>
         </div>
-        <button className="text-muted text-sm" onClick={() => setMenuOpen((v) => !v)}>
-          ☰ Mais
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button className="text-muted text-sm" onClick={() => setMenuOpen((v) => !v)}>
+            ☰ Mais
+          </button>
+        </div>
       </header>
 
       <main className="flex-1 overflow-y-auto p-4 pb-20">
@@ -39,7 +43,7 @@ export function MobileLayout() {
                   onClick={() => setMenuOpen(false)}
                   className={({ isActive }) =>
                     `flex items-center gap-3 rounded-lg px-3 py-2 text-sm ${
-                      isActive ? 'bg-ink-card text-gold' : 'text-muted hover:text-white'
+                      isActive ? 'bg-ink-card text-gold' : 'text-muted hover:text-strong'
                     }`
                   }
                 >

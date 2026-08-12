@@ -12,7 +12,7 @@ function TierCard({
   accent: 'muted' | 'gold' | 'success';
   highlight?: boolean;
 }) {
-  const color = accent === 'gold' ? 'text-gold' : accent === 'success' ? 'text-success' : 'text-white';
+  const color = accent === 'gold' ? 'text-gold' : accent === 'success' ? 'text-success' : 'text-strong';
   return (
     <div className={`card ${highlight ? 'border-gold/60' : ''}`}>
       <div className="text-xs text-muted">{title}</div>
@@ -51,7 +51,7 @@ export function PriceBreakdown({
   return (
     <div>
       <div className="flex items-center justify-between mb-3">
-        <h2 className="text-sm font-semibold text-white">Composição do preço</h2>
+        <h2 className="text-sm font-semibold text-strong">Composição do preço</h2>
         <div className="text-[11px] text-muted">
           Comissão {formatPercent(commission)} · Impostos {formatPercent(tax)}
         </div>

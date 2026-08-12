@@ -1,19 +1,25 @@
 /** @type {import('tailwindcss').Config} */
-// Tokens de design semânticos (ver docs/ARCHITECTURE.md §UI e CLAUDE.md).
-// Paleta: preto / preto fosco / vermelho / dourado / cinza. Cores via CSS variables
-// para permitir tema futuro. Vermelho = crítico; dourado = lucro/metas/premium.
+// Tokens de design semânticos com suporte a tema claro/escuro via CSS variables.
+// As variáveis são definidas em src/index.css (:root = dark, .light = claro).
+// Paleta: preto/branco (superfícies) · vermelho (crítico) · dourado (lucro/premium) · cinza.
+const withVar = (v) => `rgb(var(${v}) / <alpha-value>)`;
+
 export default {
   content: ['./index.html', './src/**/*.{ts,tsx}'],
   darkMode: 'class',
   theme: {
     extend: {
       colors: {
-        // superfícies
         ink: {
-          DEFAULT: '#0a0a0b', // preto
-          soft: '#141416', // preto fosco
-          card: '#1b1b1f',
-          border: '#2a2a30',
+          DEFAULT: withVar('--bg'),
+          soft: withVar('--surface'),
+          card: withVar('--card'),
+          border: withVar('--border'),
+        },
+        strong: withVar('--strong'), // texto forte (títulos) — antes era text-white
+        muted: {
+          DEFAULT: withVar('--muted'),
+          soft: withVar('--muted-soft'),
         },
         gold: {
           DEFAULT: '#d4af37',
@@ -31,10 +37,6 @@ export default {
         },
         warning: {
           DEFAULT: '#e0a92e',
-        },
-        muted: {
-          DEFAULT: '#8a8a92',
-          soft: '#b4b4bc',
         },
       },
       fontFamily: {

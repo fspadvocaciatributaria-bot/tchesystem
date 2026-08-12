@@ -165,7 +165,7 @@ export function FormationEditorPage() {
     <div className="space-y-6">
       <div>
         <Link to="/pricing" className="text-xs text-muted hover:text-gold">← Voltar</Link>
-        <h1 className="text-xl font-semibold text-white mt-1">{service.name}</h1>
+        <h1 className="text-xl font-semibold text-strong mt-1">{service.name}</h1>
         <p className="text-sm text-muted">
           {service.estimated_hours}h estimadas · Custo fixo rateado:{' '}
           <span className="text-gold">{formatBRL(derived.fixedShare)}</span>
@@ -269,7 +269,7 @@ function ComponentSection({
   return (
     <div className="card">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-white">
+        <h3 className="text-sm font-semibold text-strong">
           {title} <span className="text-gold ml-2">{formatBRL(subtotal)}</span>
         </h3>
         {canWrite && (

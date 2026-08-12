@@ -16,7 +16,7 @@ export function LaborTypesPage() {
       singular="tipo de mão de obra"
       orderBy="name"
       columns={[
-        { header: 'Tipo', render: (r) => <span className="text-white">{r.name}</span> },
+        { header: 'Tipo', render: (r) => <span className="text-strong">{r.name}</span> },
         { header: 'Descrição', render: (r) => r.description ?? '—' },
         {
           header: 'Status',

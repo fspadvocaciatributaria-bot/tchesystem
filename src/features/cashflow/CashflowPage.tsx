@@ -106,7 +106,7 @@ export function CashflowPage() {
     <div>
       <div className="flex items-start justify-between mb-4 gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-white">Fluxo de caixa</h1>
+          <h1 className="text-xl font-semibold text-strong">Fluxo de caixa</h1>
           <p className="text-sm text-muted mt-1">Entradas e saídas do seu negócio.</p>
         </div>
         {canWrite && <button className="btn-primary shrink-0" onClick={() => setOpen(true)}>+ Lançamento</button>}
@@ -148,7 +148,7 @@ export function CashflowPage() {
               filtered.map((e) => (
                 <tr key={e.id} className="border-b border-ink-border/50 last:border-0">
                   <td className="px-4 py-3 text-muted">{new Date(e.entry_date).toLocaleDateString('pt-BR')}</td>
-                  <td className="px-4 py-3 text-white">{e.description ?? '—'}</td>
+                  <td className="px-4 py-3 text-strong">{e.description ?? '—'}</td>
                   <td className="px-4 py-3 text-muted-soft">{e.category ?? '—'}</td>
                   <td className={`px-4 py-3 text-right ${e.direction === 'in' ? 'text-success' : 'text-critical'}`}>
                     {e.direction === 'in' ? '+' : '-'}{formatBRL(e.amount)}

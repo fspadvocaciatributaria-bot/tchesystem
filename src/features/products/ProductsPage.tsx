@@ -30,7 +30,7 @@ export function ProductsPage() {
       singular="produto"
       orderBy="name"
       columns={[
-        { header: 'Produto', render: (r) => <span className="text-white">{r.name}</span> },
+        { header: 'Produto', render: (r) => <span className="text-strong">{r.name}</span> },
         { header: 'Unidade', render: (r) => UNIT_LABEL[r.unit] },
         { header: 'Estoque', render: (r) => `${r.stock_current}` },
         {

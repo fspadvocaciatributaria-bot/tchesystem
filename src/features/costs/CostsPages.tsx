@@ -22,7 +22,7 @@ export function FixedCostsPage() {
       subtitle="Aluguel, energia, salários… convertidos para base mensal no rateio."
       singular="custo fixo"
       columns={[
-        { header: 'Descrição', render: (r) => <span className="text-white">{r.description}</span> },
+        { header: 'Descrição', render: (r) => <span className="text-strong">{r.description}</span> },
         { header: 'Categoria', render: (r) => r.category ?? '—' },
         { header: 'Valor', render: (r) => formatBRL(r.amount) },
         { header: 'Periodicidade', render: (r) => PERIODICITY_LABEL[r.periodicity as Periodicity] },
@@ -79,7 +79,7 @@ export function VariableCostsPage() {
       subtitle="Custos que variam por serviço (materiais, deslocamento, taxas)."
       singular="custo variável"
       columns={[
-        { header: 'Descrição', render: (r) => <span className="text-white">{r.description}</span> },
+        { header: 'Descrição', render: (r) => <span className="text-strong">{r.description}</span> },
         { header: 'Categoria', render: (r) => r.category ?? '—' },
         { header: 'Valor', render: (r) => formatBRL(r.amount) },
         {

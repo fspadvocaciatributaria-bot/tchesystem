@@ -21,7 +21,7 @@ export function HelpCenterPage() {
 
   return (
     <div>
-      <h1 className="text-xl font-semibold text-white mb-1">Central de Ajuda</h1>
+      <h1 className="text-xl font-semibold text-strong mb-1">Central de Ajuda</h1>
       <p className="text-sm text-muted mb-4">
         Aprenda o que cada tela faz e os conceitos por trás dos cálculos.
       </p>
@@ -43,7 +43,7 @@ export function HelpCenterPage() {
                 href={`#${s.id}`}
                 onClick={() => setActiveSection(s.id)}
                 className={`block text-sm px-3 py-2 rounded-lg transition-colors ${
-                  activeSection === s.id ? 'bg-ink-card text-gold' : 'text-muted hover:text-white'
+                  activeSection === s.id ? 'bg-ink-card text-gold' : 'text-muted hover:text-strong'
                 }`}
               >
                 {s.title}
@@ -78,7 +78,7 @@ function TopicCard({ topic }: { topic: HelpTopic }) {
         <div className="flex items-start gap-3">
           <span className="text-xl">{topic.icon}</span>
           <div className="flex-1">
-            <div className="text-white font-medium">{topic.title}</div>
+            <div className="text-strong font-medium">{topic.title}</div>
             <div className="text-xs text-muted mt-0.5">{topic.summary}</div>
           </div>
           <span className="text-muted text-xs">{open ? '−' : '+'}</span>

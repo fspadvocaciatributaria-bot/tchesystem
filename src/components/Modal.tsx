@@ -19,8 +19,8 @@ export function Modal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between p-4 border-b border-ink-border sticky top-0 bg-ink-card">
-          <h2 className="text-base font-semibold text-white">{title}</h2>
-          <button className="text-muted hover:text-white" onClick={onClose}>
+          <h2 className="text-base font-semibold text-strong">{title}</h2>
+          <button className="text-muted hover:text-strong" onClick={onClose}>
             ✕
           </button>
         </div>
