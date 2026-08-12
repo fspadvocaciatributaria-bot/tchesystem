@@ -1,0 +1,38 @@
+name: Deploy para o Netlify
+
+# Dispara a cada push na branch principal.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch: {} # permite rodar manualmente pelo painel do GitHub
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Rodar testes
+        run: npm test
+
+      - name: Build de produção
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      - name: Deploy no Netlify
+        run: npx --yes netlify-cli deploy --prod --dir=dist --site="$NETLIFY_SITE_ID"
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: 2e403453-08e9-4033-95d1-a4109cb58190
