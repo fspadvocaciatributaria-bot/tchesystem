@@ -2,14 +2,24 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { NAV_ITEMS } from '@/app/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { ThemeToggle } from '@/features/theme/ThemeProvider';
+import { useOrg } from '@/features/organization/OrgProvider';
+import { getLogoUrl } from '@/features/organization/logo';
 
 export function DesktopLayout() {
   const { user, signOut } = useAuth();
+  const { organization } = useOrg();
+  const logo = getLogoUrl(organization?.logo_path);
   return (
     <div className="min-h-full grid grid-cols-[240px_1fr]">
       <aside className="bg-ink-soft border-r border-ink-border flex flex-col">
-        <div className="p-4 text-xl font-bold text-strong">
-          Tche<span className="text-gold">System</span>
+        <div className="p-4">
+          {logo ? (
+            <img src={logo} alt={organization?.name ?? 'Logo'} className="max-h-10 max-w-[180px] object-contain" />
+          ) : (
+            <div className="text-xl font-bold text-strong">
+              Tche<span className="text-gold">System</span>
+            </div>
+          )}
         </div>
         <nav className="flex-1 overflow-y-auto px-2 space-y-0.5">
           {NAV_ITEMS.map((item) => (

@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase/client';
 import { useOrg } from '@/features/organization/OrgProvider';
 import { productiveHoursPerMonth } from '@/lib/pricing';
 import { seedStudioBlack } from './seedDemo';
+import { getLogoUrl, uploadLogo } from '@/features/organization/logo';
 
 /**
  * Configurações da organização: dados cadastrais + parâmetros que alimentam a
@@ -84,6 +85,17 @@ export function SettingsPage() {
       <h1 className="text-xl font-semibold text-strong mb-1">Configurações</h1>
       <p className="text-sm text-muted mb-6">Dados da empresa e parâmetros de precificação.</p>
 
+      {canWrite && (
+        <LogoSection
+          orgId={organization.id}
+          logoPath={organization.logo_path}
+          onDone={async () => {
+            await qc.invalidateQueries({ queryKey: ['current-org'] });
+            refetch();
+          }}
+        />
+      )}
+
       <form onSubmit={onSubmit} className="space-y-6">
         <section className="card">
           <h2 className="text-sm font-semibold text-strong mb-3">Empresa</h2>
@@ -133,6 +145,81 @@ export function SettingsPage() {
 
       {canWrite && <DemoDataSection orgId={organization.id} onDone={() => qc.invalidateQueries()} />}
     </div>
+  );
+}
+
+function LogoSection({
+  orgId,
+  logoPath,
+  onDone,
+}: {
+  orgId: string;
+  logoPath: string | null;
+  onDone: () => void;
+}) {
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState<string | null>(null);
+  const url = getLogoUrl(logoPath);
+
+  async function onFile(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setBusy(true);
+    setErr(null);
+    try {
+      const path = await uploadLogo(orgId, file);
+      const { error } = await supabase.from('organizations').update({ logo_path: path }).eq('id', orgId);
+      if (error) throw error;
+      onDone();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Erro no upload');
+    } finally {
+      setBusy(false);
+      e.target.value = '';
+    }
+  }
+
+  async function remove() {
+    setBusy(true);
+    setErr(null);
+    try {
+      await supabase.from('organizations').update({ logo_path: null }).eq('id', orgId);
+      onDone();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Erro');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="card mb-6">
+      <h2 className="text-sm font-semibold text-strong mb-1">Logo da empresa</h2>
+      <p className="text-xs text-muted mb-3">
+        Aparece no cabeçalho e nos orçamentos. PNG, JPG, SVG ou WEBP (máx. 2 MB).
+      </p>
+      <div className="flex items-center gap-4">
+        <div className="w-20 h-20 rounded-lg bg-ink-soft border border-ink-border grid place-items-center overflow-hidden">
+          {url ? (
+            <img src={url} alt="Logo" className="max-w-full max-h-full object-contain" />
+          ) : (
+            <span className="text-2xl text-muted">🏢</span>
+          )}
+        </div>
+        <div className="space-y-2">
+          <label className="btn-ghost cursor-pointer inline-block">
+            {busy ? 'Enviando…' : 'Enviar logo'}
+            <input type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" className="hidden" onChange={onFile} disabled={busy} />
+          </label>
+          {url && (
+            <button className="text-xs text-critical hover:underline block" onClick={remove} disabled={busy}>
+              Remover logo
+            </button>
+          )}
+          {err && <p className="text-critical text-xs">{err}</p>}
+        </div>
+      </div>
+    </section>
   );
 }
 

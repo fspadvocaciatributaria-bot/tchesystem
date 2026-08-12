@@ -3,17 +3,25 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { NAV_ITEMS, MOBILE_PRIMARY } from '@/app/navigation';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { ThemeToggle } from '@/features/theme/ThemeProvider';
+import { useOrg } from '@/features/organization/OrgProvider';
+import { getLogoUrl } from '@/features/organization/logo';
 
 export function MobileLayout() {
   const { user, signOut } = useAuth();
+  const { organization } = useOrg();
+  const logo = getLogoUrl(organization?.logo_path);
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="min-h-full flex flex-col">
       <header className="flex items-center justify-between px-4 py-3 bg-ink-soft border-b border-ink-border sticky top-0 z-10">
-        <div className="text-lg font-bold text-strong">
-          Tche<span className="text-gold">System</span>
-        </div>
+        {logo ? (
+          <img src={logo} alt={organization?.name ?? 'Logo'} className="max-h-8 max-w-[140px] object-contain" />
+        ) : (
+          <div className="text-lg font-bold text-strong">
+            Tche<span className="text-gold">System</span>
+          </div>
+        )}
         <div className="flex items-center gap-2">
           <ThemeToggle />
           <button className="text-muted text-sm" onClick={() => setMenuOpen((v) => !v)}>

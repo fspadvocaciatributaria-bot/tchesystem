@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { formatBRL } from '@/lib/money/format';
 import { useOrg } from '@/features/organization/OrgProvider';
+import { getLogoUrl } from '@/features/organization/logo';
 import { useQuote } from './useQuotes';
 
 /**
@@ -36,6 +37,13 @@ export function QuoteViewPage() {
       <div className="bg-white text-black rounded-xl2 p-8 print:p-0 print:rounded-none">
         <header className="flex justify-between items-start border-b border-gray-200 pb-4 mb-6">
           <div>
+            {getLogoUrl(organization?.logo_path) && (
+              <img
+                src={getLogoUrl(organization?.logo_path)!}
+                alt="Logo"
+                className="max-h-16 max-w-[220px] object-contain mb-2"
+              />
+            )}
             <h1 className="text-2xl font-bold text-black">{organization?.trade_name || organization?.name}</h1>
             {organization?.doc_number && <p className="text-xs text-gray-500">{organization.doc_number}</p>}
             {organization?.phone && <p className="text-xs text-gray-500">{organization.phone}</p>}
