@@ -13,6 +13,9 @@ import { CustomersPage } from '@/features/customers/CustomersPage';
 import { ServicesPage } from '@/features/services/ServicesPage';
 import { FixedCostsPage, VariableCostsPage } from '@/features/costs/CostsPages';
 import { InventoryPage } from '@/features/inventory/InventoryPage';
+import { PricingListPage } from '@/features/pricing/PricingListPage';
+import { FormationEditorPage } from '@/features/pricing/FormationEditorPage';
+import { GoalsPage } from '@/features/goals/GoalsPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
 import { PagePlaceholder } from '@/components/PagePlaceholder';
 
@@ -69,7 +72,8 @@ export const router = createBrowserRouter([
             children: [
               { path: '/', element: <DashboardPage /> },
               { path: '/services', element: <ServicesPage /> },
-              { path: '/pricing', element: ph('Formação de Preço', 'FASE 3', 'Módulo central de precificação.') },
+              { path: '/pricing', element: <PricingListPage /> },
+              { path: '/pricing/:serviceId', element: <FormationEditorPage /> },
               { path: '/quotes', element: ph('Orçamentos', 'FASE 4') },
               { path: '/customers', element: <CustomersPage /> },
               { path: '/professionals', element: <ProfessionalsPage /> },
@@ -80,7 +84,7 @@ export const router = createBrowserRouter([
               { path: '/costs/fixed', element: <FixedCostsPage /> },
               { path: '/costs/variable', element: <VariableCostsPage /> },
               { path: '/cashflow', element: ph('Fluxo de caixa', 'FASE 5') },
-              { path: '/goals', element: ph('Minha meta', 'FASE 3') },
+              { path: '/goals', element: <GoalsPage /> },
               { path: '/settings', element: <SettingsPage /> },
             ],
           },
