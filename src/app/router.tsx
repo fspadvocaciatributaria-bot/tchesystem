@@ -19,8 +19,8 @@ import { GoalsPage } from '@/features/goals/GoalsPage';
 import { QuotesListPage } from '@/features/quotes/QuotesListPage';
 import { QuoteEditorPage } from '@/features/quotes/QuoteEditorPage';
 import { QuoteViewPage } from '@/features/quotes/QuoteViewPage';
+import { CashflowPage } from '@/features/cashflow/CashflowPage';
 import { SettingsPage } from '@/features/settings/SettingsPage';
-import { PagePlaceholder } from '@/components/PagePlaceholder';
 
 function Loading() {
   return <div className="min-h-full grid place-items-center text-muted">Carregando…</div>;
@@ -55,9 +55,6 @@ function PublicOnlyRoute({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-const ph = (title: string, phase: string, description?: string) => (
-  <PagePlaceholder title={title} phase={phase} description={description} />
-);
 
 export const router = createBrowserRouter([
   { path: '/login', element: <PublicOnlyRoute><LoginPage /></PublicOnlyRoute> },
@@ -89,7 +86,7 @@ export const router = createBrowserRouter([
               { path: '/inventory', element: <InventoryPage /> },
               { path: '/costs/fixed', element: <FixedCostsPage /> },
               { path: '/costs/variable', element: <VariableCostsPage /> },
-              { path: '/cashflow', element: ph('Fluxo de caixa', 'FASE 5') },
+              { path: '/cashflow', element: <CashflowPage /> },
               { path: '/goals', element: <GoalsPage /> },
               { path: '/settings', element: <SettingsPage /> },
             ],

@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/lib/supabase/client';
 import { useOrg } from '@/features/organization/OrgProvider';
 import { productiveHoursPerMonth } from '@/lib/pricing';
+import { seedStudioBlack } from './seedDemo';
 
 /**
  * Configurações da organização: dados cadastrais + parâmetros que alimentam a
@@ -129,7 +130,46 @@ export function SettingsPage() {
           </button>
         )}
       </form>
+
+      {canWrite && <DemoDataSection orgId={organization.id} onDone={() => qc.invalidateQueries()} />}
     </div>
+  );
+}
+
+function DemoDataSection({ orgId, onDone }: { orgId: string; onDone: () => void }) {
+  const [busy, setBusy] = useState(false);
+  const [result, setResult] = useState<string | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+
+  async function load() {
+    if (!confirm('Carregar dados demonstrativos (Studio Black)? Isso adiciona registros de exemplo à sua organização.')) return;
+    setBusy(true);
+    setErr(null);
+    setResult(null);
+    try {
+      const summary = await seedStudioBlack(orgId);
+      setResult(`Criado: ${summary}.`);
+      onDone();
+    } catch (e) {
+      setErr(e instanceof Error ? e.message : 'Erro ao carregar demo');
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="card mt-6 border-dashed">
+      <h2 className="text-sm font-semibold text-white mb-1">Dados demonstrativos</h2>
+      <p className="text-xs text-muted mb-3">
+        Popula a organização com um exemplo de estúdio de tatuagem (profissionais, produtos com estoque,
+        custos, serviços, clientes, meta e fluxo de caixa) para você explorar o sistema.
+      </p>
+      <button className="btn-ghost" onClick={load} disabled={busy}>
+        {busy ? 'Carregando…' : 'Carregar dados demo (Studio Black)'}
+      </button>
+      {result && <p className="text-success text-xs mt-2">{result}</p>}
+      {err && <p className="text-critical text-xs mt-2">{err}</p>}
+    </section>
   );
 }
 
