@@ -1,4 +1,4 @@
-# FSP — Formação de Preços & Gestão para Prestadores de Serviços
+# TcheSystem — Formação de Preços & Gestão para Prestadores de Serviços
 
 Plataforma web (SaaS) que ajuda o profissional a descobrir **quanto cobrar** por um serviço —
 cobrindo custos, mão de obra e a margem de lucro desejada — e depois transforma esse preço em

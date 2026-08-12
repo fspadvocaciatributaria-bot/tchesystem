@@ -8,7 +8,7 @@ export function DesktopLayout() {
     <div className="min-h-full grid grid-cols-[240px_1fr]">
       <aside className="bg-ink-soft border-r border-ink-border flex flex-col">
         <div className="p-4 text-xl font-bold text-white">
-          FSP<span className="text-gold">.</span>
+          Tche<span className="text-gold">System</span>
         </div>
         <nav className="flex-1 overflow-y-auto px-2 space-y-0.5">
           {NAV_ITEMS.map((item) => (

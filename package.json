@@ -1,9 +1,9 @@
 {
-  "name": "fsp-precos",
+  "name": "tchesystem",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "FSP — Formação de Preços & Gestão para Prestadores de Serviços",
+  "description": "TcheSystem — Formação de Preços & Gestão para Prestadores de Serviços",
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",

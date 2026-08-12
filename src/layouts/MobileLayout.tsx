@@ -11,7 +11,7 @@ export function MobileLayout() {
     <div className="min-h-full flex flex-col">
       <header className="flex items-center justify-between px-4 py-3 bg-ink-soft border-b border-ink-border sticky top-0 z-10">
         <div className="text-lg font-bold text-white">
-          FSP<span className="text-gold">.</span>
+          Tche<span className="text-gold">System</span>
         </div>
         <button className="text-muted text-sm" onClick={() => setMenuOpen((v) => !v)}>
           ☰ Mais

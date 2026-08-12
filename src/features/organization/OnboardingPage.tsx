@@ -49,7 +49,7 @@ export function OnboardingPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <div className="text-2xl font-bold text-white">
-            FSP<span className="text-gold">.</span>
+            Tche<span className="text-gold">System</span>
           </div>
           <p className="text-sm text-muted mt-1">Vamos configurar seu negócio</p>
         </div>
